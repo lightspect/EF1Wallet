@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:wallet_app_ef1/Common/color_utils.dart';
 import 'package:wallet_app_ef1/Common/reusable_widget.dart';
@@ -89,7 +91,9 @@ class _NavigationMenuState extends State<NavigationMenu>
                           decoration: InputDecoration(
                             suffixIcon: IconButton(
                               icon: Icon(Icons.qr_code_scanner),
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/qrscan');
+                              },
                             ),
                             hintText: "Recepient",
                             enabledBorder: OutlineInputBorder(
@@ -287,7 +291,16 @@ class _NavigationMenuState extends State<NavigationMenu>
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
         tooltip: 'Send',
-        child: Icon(Icons.send),
+        child: Transform.rotate(
+          angle: -3.14 / 4,
+          child: IconButton(
+            icon: Icon(
+              Icons.send,
+              color: Colors.white,
+            ),
+            onPressed: null,
+          ),
+        ),
         elevation: 2.0,
       ),
     );

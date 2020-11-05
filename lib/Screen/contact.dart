@@ -62,7 +62,9 @@ class _ContactPageState extends State<ContactPage> {
                   prefixIcon: Icon(Icons.search),
                   suffixIcon: IconButton(
                     icon: Icon(Icons.qr_code_scanner),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/qrscan');
+                    },
                   ),
                   hintText: "Search",
                   enabledBorder: OutlineInputBorder(

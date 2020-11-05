@@ -100,7 +100,7 @@ class _HistoryState extends State<HistoryPage> {
     return Card(
       child: Container(
         decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
-        padding: EdgeInsets.fromLTRB(16, 24, 16, 24),
+        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
         child: Column(
           children: [
             Row(

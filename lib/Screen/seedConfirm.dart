@@ -228,7 +228,7 @@ class _SeedConfirmPageState extends State<SeedConfirmPage> {
               textAlign: TextAlign.justify,
             ),
             StatefulBuilder(
-                builder: (BuildContext context, StateSetter setState) {
+                builder: (BuildContext context, StateSetter setButtonState) {
               return Column(
                 children: [
                   Container(
@@ -268,7 +268,7 @@ class _SeedConfirmPageState extends State<SeedConfirmPage> {
                               style: TextStyle(fontSize: 12),
                             ),
                             onPressed: () {
-                              setState(() {
+                              setButtonState(() {
                                 buttonList[i].status = !buttonList[i].status;
                                 setSeedString(buttonList[i].buttonText);
                               });

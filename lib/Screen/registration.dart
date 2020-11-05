@@ -122,7 +122,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 onSubmitField: () {},
               ),
               StatefulBuilder(
-                  builder: (BuildContext context, StateSetter setState) {
+                  builder: (BuildContext context, StateSetter setBoxState) {
                 return CheckboxListTile(
                   title: new RichText(
                     text: new TextSpan(
@@ -140,7 +140,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   ),
                   value: checkedValue,
                   onChanged: (newValue) {
-                    setState(() {
+                    setBoxState(() {
                       checkedValue = newValue;
                     });
                   },

@@ -172,7 +172,7 @@ class _SeedImportPageState extends State<SeedImportPage> {
                     onSubmitField: () {},
                   ),
                   StatefulBuilder(
-                      builder: (BuildContext context, StateSetter setState) {
+                      builder: (BuildContext context, StateSetter setBoxState) {
                     return CheckboxListTile(
                       title: new RichText(
                         text: new TextSpan(
@@ -190,7 +190,7 @@ class _SeedImportPageState extends State<SeedImportPage> {
                       ),
                       value: checkedValue,
                       onChanged: (newValue) {
-                        setState(() {
+                        setBoxState(() {
                           checkedValue = newValue;
                         });
                       },
