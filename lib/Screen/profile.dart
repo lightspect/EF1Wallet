@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:qr_flutter/qr_flutter.dart';
+import 'package:wallet_app_ef1/Common/color_utils.dart';
+import 'package:wallet_app_ef1/Common/reusable_widget.dart';
 import 'package:wallet_app_ef1/Model/contactModel.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -32,6 +35,35 @@ class _ProfilePageState extends State<ProfilePage> {
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
             ),
+            Flexible(
+              child: Container(
+                alignment: Alignment.center,
+                height: 240,
+                width: 240,
+                decoration: BoxDecoration(
+                    border: Border.all(color: colorBlue, width: 4.0)),
+                child: QrImage(
+                  data: user.address,
+                ),
+              ),
+            ),
+            LoginButton(
+              text: "Copy QR",
+              minWidth: 160,
+              height: 48,
+              borderRadius: 4,
+              margin: EdgeInsets.symmetric(vertical: 16),
+            ),
+            TextFormFieldWidget(
+              hintText: "Change Password",
+              suffixIcon: IconButton(
+                icon: Icon(
+                  Icons.arrow_forward_ios,
+                  size: 16,
+                ),
+                onPressed: () {},
+              ),
+            )
           ],
         ),
       ),

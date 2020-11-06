@@ -1,12 +1,15 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:wallet_app_ef1/Common/color_utils.dart';
 import 'package:wallet_app_ef1/Common/reusable_widget.dart';
 import 'package:wallet_app_ef1/Model/destination.dart';
+import 'package:wallet_app_ef1/Model/navigationModel.dart';
 import 'package:wallet_app_ef1/Screen/contact.dart';
 import 'package:wallet_app_ef1/Screen/history.dart';
 import 'package:wallet_app_ef1/Screen/profile.dart';
+import 'package:wallet_app_ef1/Screen/send.dart';
 
 import 'home.dart';
 
@@ -18,7 +21,7 @@ class NavigationMenu extends StatefulWidget {
 class _NavigationMenuState extends State<NavigationMenu>
     with TickerProviderStateMixin<NavigationMenu> {
   String _title = "Home";
-  int _selectedNavIndex = 0;
+  //int _selectedNavIndex = 0;
   int _selectedDrawerIndex = 0;
   List<Widget> navItem = [
     HomePage(),
@@ -26,20 +29,34 @@ class _NavigationMenuState extends State<NavigationMenu>
     HistoryPage(),
     ProfilePage()
   ];
-
-  void _selectedTab(int index) {
-    setState(() {
-      _selectedNavIndex = index;
-      _title = bottomNavList[index].text;
-    });
-  }
+  Color _selectedColor = colorBlue;
+  final _recepientController = TextEditingController();
+  final _aliasController = TextEditingController();
+  String _qrAction = "getAddress";
 
   Widget _getNavItemWidget(int pos) {
     if (0 <= pos && pos < navItem.length) {
+      print(pos);
       return navItem[pos];
     } else {
       return Text("Error");
     }
+  }
+
+  Widget _sendWidget() {
+    return SendPage();
+  }
+
+  Widget _callDialog() {
+    return GestureDetector(
+      onTap: () {
+        _showMyDialog();
+      },
+      child: Icon(
+        Icons.add,
+        size: 26.0,
+      ),
+    );
   }
 
   void _onSelectItem(int index) {
@@ -60,8 +77,6 @@ class _NavigationMenuState extends State<NavigationMenu>
   }
 
   Future<void> _showMyDialog() async {
-    final _recepientController = TextEditingController();
-    final _aliasController = TextEditingController();
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -92,7 +107,7 @@ class _NavigationMenuState extends State<NavigationMenu>
                             suffixIcon: IconButton(
                               icon: Icon(Icons.qr_code_scanner),
                               onPressed: () {
-                                Navigator.pushNamed(context, '/qrscan');
+                                _navigateAndReturnData();
                               },
                             ),
                             hintText: "Recepient",
@@ -187,8 +202,18 @@ class _NavigationMenuState extends State<NavigationMenu>
     );
   }
 
+  void _navigateAndReturnData() async {
+    final result =
+        await Navigator.pushNamed(context, '/qrscan', arguments: _qrAction);
+    setState(() {
+      _recepientController.text = result.toString();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    bool keyboardIsOpened = MediaQuery.of(context).viewInsets.bottom != 0.0;
+    PageController _myPage = PageController(initialPage: 0);
     var drawerOptions = <Widget>[];
     for (var i = 0; i < drawerList.length; i++) {
       var d = drawerList[i];
@@ -199,110 +224,201 @@ class _NavigationMenuState extends State<NavigationMenu>
         onTap: () => _onSelectItem(i),
       ));
     }
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          _title,
-          style: TextStyle(color: colorBlack),
-        ),
-        elevation: 0,
-        backgroundColor: colorBG,
-        iconTheme: IconThemeData(color: colorBlack),
-        actions: <Widget>[
-          Padding(
-            padding: EdgeInsets.only(right: 20.0),
-            child: _selectedNavIndex == 1
-                ? GestureDetector(
-                    onTap: () {
-                      _showMyDialog();
-                    },
-                    child: Icon(
-                      Icons.add,
-                      size: 26.0,
-                    ),
-                  )
-                : GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, '/qrscan');
-                    },
-                    child: Icon(
-                      Icons.qr_code_scanner,
-                      size: 26.0,
-                    ),
-                  ),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => NavBarModel()),
+        ChangeNotifierProvider(create: (context) => AppBarModel())
+      ],
+      child: Builder(builder: (context) {
+        return Scaffold(
+          appBar: MyCustomAppBar(
+            height: 75,
+            title: _title,
+            action: _callDialog(),
           ),
-        ],
-      ),
-      drawer: Drawer(
-        child: Column(
-          children: <Widget>[
-            Container(
-              height: 108,
-              color: colorLightBlue,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Container(
-                    padding: EdgeInsets.all(12),
-                    child: CircleAvatar(
-                      radius: 30,
-                      backgroundColor: Colors.white,
-                      child: CircleAvatar(
-                          radius: 26,
-                          backgroundImage:
-                              AssetImage('assets/images/profile.jpg')),
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.all(10),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text("ID : 0xabcxxx...001"),
-                        LoginButton(
-                          height: 20,
-                          minWidth: 80,
-                          color: Colors.white,
-                          text: 'Copy ID',
-                          textColor: colorLightGreen,
-                          borderRadius: 10,
-                          fontSize: 12,
-                          margin: EdgeInsets.all(0),
+          drawer: Drawer(
+            child: Column(
+              children: <Widget>[
+                Container(
+                  height: 108,
+                  color: colorLightBlue,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Container(
+                        padding: EdgeInsets.all(12),
+                        child: CircleAvatar(
+                          radius: 30,
+                          backgroundColor: Colors.white,
+                          child: CircleAvatar(
+                              radius: 26,
+                              backgroundImage:
+                                  AssetImage('assets/images/profile.jpg')),
                         ),
-                      ],
-                    ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.all(10),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text("ID : 0xabcxxx...001"),
+                            LoginButton(
+                              height: 20,
+                              minWidth: 80,
+                              color: Colors.white,
+                              text: 'Copy ID',
+                              textColor: colorLightGreen,
+                              borderRadius: 10,
+                              fontSize: 12,
+                              margin: EdgeInsets.all(0),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                Column(children: drawerOptions)
+              ],
+            ),
+          ),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
+          bottomNavigationBar: BottomAppBar(
+            shape: CircularNotchedRectangle(),
+            child: Container(
+              height: 75,
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  IconButton(
+                    iconSize: 30.0,
+                    padding: EdgeInsets.only(left: 28.0),
+                    icon: Icon(Icons.home),
+                    onPressed: () {
+                      setState(() {
+                        _myPage.jumpToPage(0);
+                      });
+                    },
+                  ),
+                  IconButton(
+                    iconSize: 30.0,
+                    padding: EdgeInsets.only(right: 28.0),
+                    icon: Icon(Icons.search),
+                    onPressed: () {
+                      setState(() {
+                        _myPage.jumpToPage(1);
+                      });
+                    },
+                  ),
+                  IconButton(
+                    iconSize: 30.0,
+                    padding: EdgeInsets.only(left: 28.0),
+                    icon: Icon(Icons.notifications),
+                    onPressed: () {
+                      setState(() {
+                        _myPage.jumpToPage(3);
+                      });
+                    },
+                  ),
+                  IconButton(
+                    iconSize: 30.0,
+                    padding: EdgeInsets.only(right: 28.0),
+                    icon: Icon(Icons.list),
+                    onPressed: () {
+                      setState(() {
+                        _myPage.jumpToPage(4);
+                      });
+                    },
                   )
                 ],
               ),
             ),
-            Column(children: drawerOptions)
-          ],
-        ),
-      ),
-      body: SafeArea(child: _getNavItemWidget(_selectedNavIndex)),
-      bottomNavigationBar: FABBottomAppBar(
-        color: Colors.grey,
-        selectedColor: colorBlue,
-        notchedShape: CircularNotchedRectangle(),
-        onTabSelected: _selectedTab,
-        items: bottomNavList,
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        tooltip: 'Send',
-        child: Transform.rotate(
-          angle: -3.14 / 4,
-          child: IconButton(
-            icon: Icon(
-              Icons.send,
-              color: Colors.white,
-            ),
-            onPressed: null,
           ),
-        ),
-        elevation: 2.0,
-      ),
+          body: PageView(
+            controller: _myPage,
+            onPageChanged: (int) {
+              print('Page Changes to index $int');
+            },
+            children: <Widget>[
+              HomePage(),
+              ContactPage(),
+              SendPage(
+                pc: _myPage,
+              ),
+              HistoryPage(),
+              ProfilePage()
+            ],
+            physics:
+                NeverScrollableScrollPhysics(), // Comment this if you need to use Swipe.
+          ),
+          floatingActionButton: Container(
+            height: 65.0,
+            width: 65.0,
+            child: FittedBox(
+              child: FloatingActionButton(
+                onPressed: () {
+                  _myPage.jumpToPage(2);
+                },
+                child: Icon(
+                  Icons.add,
+                  color: Colors.white,
+                ),
+                // elevation: 5.0,
+              ),
+            ),
+          ),
+        );
+      }),
     );
   }
+}
+
+class MyCustomAppBar extends StatelessWidget implements PreferredSizeWidget {
+  final double height;
+  final String title;
+  final Widget action;
+
+  const MyCustomAppBar(
+      {Key key, @required this.height, @required this.title, this.action})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<NavBarModel>(
+      builder: (context, provider, child) {
+        return Container(
+          child: AppBar(
+            title: Text(
+              title,
+              style: TextStyle(color: colorBlack),
+            ),
+            elevation: 0,
+            backgroundColor: colorBG,
+            iconTheme: IconThemeData(color: colorBlack),
+            actions: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(right: 20.0),
+                child: provider.navIndex == 1
+                    ? action
+                    : GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(context, '/qrscan');
+                        },
+                        child: Icon(
+                          Icons.qr_code_scanner,
+                          size: 26.0,
+                        ),
+                      ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  @override
+  Size get preferredSize => Size.fromHeight(height);
 }

@@ -9,6 +9,7 @@ import 'package:wallet_app_ef1/Screen/seedConfirm.dart';
 import 'package:wallet_app_ef1/Screen/seedCreate.dart';
 import 'package:wallet_app_ef1/Screen/seedImport.dart';
 import 'package:wallet_app_ef1/Screen/seedSuccess.dart';
+import 'package:wallet_app_ef1/Screen/send.dart';
 import 'package:wallet_app_ef1/Screen/term.dart';
 import 'package:wallet_app_ef1/Screen/termCondition.dart';
 
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
         '/termCondition': (context) => TermConditionPage(),
         '/aboutUs': (context) => AboutUsPage(),
         '/qrscan': (context) => ScanScreen(),
+        '/send': (context) => SendPage()
       },
     );
   }

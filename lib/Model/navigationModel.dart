@@ -8,3 +8,18 @@ class AppBarModel with ChangeNotifier {
     notifyListeners();
   }
 }
+
+class NavBarModel with ChangeNotifier {
+  int navIndex = 0;
+  bool send = false;
+
+  void changeIndex(int newIndex) {
+    navIndex = newIndex;
+    notifyListeners();
+  }
+
+  void changeSend(bool status) {
+    send = status;
+    notifyListeners();
+  }
+}

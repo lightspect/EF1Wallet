@@ -64,65 +64,6 @@ class LoginButton extends StatelessWidget {
   }
 }
 
-class AppTextField extends StatelessWidget {
-  AppTextField(
-      {this.controller,
-      this.hintText,
-      this.helpText,
-      this.prefixIcon,
-      this.suffixIcon,
-      this.isPassword,
-      this.enabled,
-      this.readOnly,
-      this.borderColor,
-      this.textColor,
-      this.height});
-
-  final TextEditingController controller;
-  final String hintText;
-  final String helpText;
-  final IconButton prefixIcon;
-  final IconButton suffixIcon;
-  final bool isPassword;
-  final bool enabled;
-  final bool readOnly;
-  final Color borderColor;
-  final Color textColor;
-  final double height;
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width - 16,
-      //height: height ?? 60,
-      padding: EdgeInsets.symmetric(horizontal: 16),
-      //margin: EdgeInsets.all(12),
-      child: TextField(
-        controller: controller,
-        readOnly: null == readOnly ? false : true,
-        obscureText: null == isPassword ? false : true,
-        decoration: InputDecoration(
-          enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.grey),
-          ),
-          focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.grey),
-          ),
-          border: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.grey),
-          ),
-          hintText: hintText ?? '',
-          hintStyle: TextStyle(color: Colors.grey),
-          helperText: helpText ?? '',
-          prefixIcon: prefixIcon,
-          suffix: suffixIcon,
-          enabled: null == enabled ? true : false,
-        ),
-        style: TextStyle(color: colorBlue),
-      ),
-    );
-  }
-}
-
 class LoginLogo extends StatelessWidget {
   LoginLogo({this.margin, this.width, this.image});
 
@@ -152,11 +93,13 @@ class TextFormFieldWidget extends StatefulWidget {
   final String defaultText;
   final FocusNode focusNode;
   final bool obscureText;
+  final bool enable;
   final TextEditingController controller;
   final Function functionValidate;
   final TextInputAction actionKeyboard;
   final Function onSubmitField;
   final Function onFieldTap;
+  final EdgeInsets padding;
 
   const TextFormFieldWidget(
       {@required this.hintText,
@@ -164,13 +107,15 @@ class TextFormFieldWidget extends StatefulWidget {
       this.textInputType,
       this.defaultText,
       this.obscureText = false,
+      this.enable = true,
       this.controller,
       this.functionValidate,
       this.actionKeyboard = TextInputAction.next,
       this.onSubmitField,
       this.onFieldTap,
       this.prefixIcon,
-      this.suffixIcon});
+      this.suffixIcon,
+      this.padding});
 
   @override
   _TextFormFieldWidgetState createState() => _TextFormFieldWidgetState();
@@ -182,8 +127,9 @@ class _TextFormFieldWidgetState extends State<TextFormFieldWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(16),
+      padding: widget.padding ?? EdgeInsets.all(16),
       child: TextFormField(
+        enabled: widget.enable,
         cursorColor: colorBlue,
         obscureText: widget.obscureText,
         keyboardType: widget.textInputType,

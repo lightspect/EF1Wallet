@@ -14,13 +14,19 @@ class _ScanState extends State<ScanScreen> {
       AssetImage("assets/images/profile.jpg"), "0xabcxxx...01", "Kobe");
   String _qrInfo = 'Scan a QR/Bar code';
   bool _camState = false;
+  String _action = "";
 
   _qrCallback(String code, BuildContext context) {
+    _action = ModalRoute.of(context).settings.arguments;
     setState(() {
       _camState = false;
       _qrInfo = code;
-      _settingModalBottomSheet(context);
     });
+    if (_action == "getAddress") {
+      Navigator.pop(context, code);
+    } else {
+      _settingModalBottomSheet(context);
+    }
   }
 
   _scanCode() {
