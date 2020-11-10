@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wallet_app_ef1/Screen/aboutUs.dart';
 import 'package:wallet_app_ef1/Screen/intro.dart';
 import 'package:wallet_app_ef1/Screen/login.dart';
-import 'package:wallet_app_ef1/Screen/navigationMenu.dart';
+import 'package:wallet_app_ef1/Screen/navMenu.dart';
 import 'package:wallet_app_ef1/Screen/qrscan.dart';
 import 'package:wallet_app_ef1/Screen/registration.dart';
 import 'package:wallet_app_ef1/Screen/seedConfirm.dart';
@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
         '/seedSuccess': (context) => SeedSuccessPage(),
         '/registration': (context) => RegistrationPage(),
         '/seedImport': (context) => SeedImportPage(),
-        '/navigationMenu': (context) => NavigationMenu(),
+        '/navigationMenu': (context) => NavMenu(),
         '/termCondition': (context) => TermConditionPage(),
         '/aboutUs': (context) => AboutUsPage(),
         '/qrscan': (context) => ScanScreen(),

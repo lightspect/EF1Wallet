@@ -1,15 +1,23 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:wallet_app_ef1/Common/color_utils.dart';
 import 'package:wallet_app_ef1/Common/reusable_widget.dart';
 import 'package:wallet_app_ef1/Model/coinModel.dart';
 import 'package:wallet_app_ef1/Model/navigationModel.dart';
 
 class SendPage extends StatefulWidget {
-  const SendPage({Key key, this.title, this.pc}) : super(key: key);
+  const SendPage(
+      {Key key,
+      this.title,
+      this.navigation,
+      this.callDialog,
+      this.setRecepient})
+      : super(key: key);
 
   final String title;
-  final PageController pc;
+  final Function(int) navigation;
+  final AsyncCallback callDialog;
+  final Function(String) setRecepient;
 
   @override
   _SendPageState createState() => _SendPageState();
@@ -44,7 +52,9 @@ class _SendPageState extends State<SendPage> {
     final result =
         await Navigator.pushNamed(context, '/qrscan', arguments: _qrAction);
     setState(() {
-      _recipientController.text = result.toString();
+      if (result.toString() != "null") {
+        _recipientController.text = result.toString();
+      }
     });
   }
 
@@ -99,66 +109,43 @@ class _SendPageState extends State<SendPage> {
     return widgets;
   }
 
-  Future<void> _showMyDialog() async {
+  Future<void> _showMyDialog(BuildContext parentContext) async {
     return showDialog<void>(
       context: context,
       builder: (BuildContext context) {
-        return ChangeNotifierProvider(
-          create: (context) => NavBarModel(),
-          child: Builder(
-            builder: (context) {
-              return AlertDialog(
-                title: Text(
-                  'Send Complete',
-                  textAlign: TextAlign.center,
-                ),
-                content: SingleChildScrollView(
-                  child: ListBody(
-                    children: <Widget>[
-                      Container(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.check_circle,
-                              color: colorGreen,
-                              size: 60,
-                            ),
-                            Text(
-                              "Your transaction is on the way!",
-                              style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.bold),
-                            ),
-                            Text("You sent " +
-                                _amountController.text +
-                                " to an external Address"),
-                            LoginButton(
-                              color: colorBlue,
-                              borderColor: colorBlue,
-                              borderRadius: 4,
-                              text: "View Details",
-                              onClick: () {
-                                Navigator.of(context).pop();
-                                widget.pc.jumpToPage(3);
-                              },
-                            ),
-                            LoginButton(
-                              color: colorGreen,
-                              borderColor: colorGreen,
-                              borderRadius: 4,
-                              text: "Add to Adress book",
-                              onClick: () {},
-                            )
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              );
-            },
-          ),
+        return CustomAlertDialog(
+          title: "Send Complete",
+          bodySubtitle: "You have sent " +
+              _amountController.text +
+              " to an external address",
+          bodyAction: [
+            LoginButton(
+              margin: EdgeInsets.fromLTRB(0, 8, 0, 8),
+              color: colorBlue,
+              borderColor: colorBlue,
+              borderRadius: 4,
+              text: "View Details",
+              onClick: () {
+                Navigator.of(context).pop();
+                NavigationProvider.of(parentContext).setTab(THIRD_SCREEN);
+                NavigationProvider.of(parentContext).setTitle("History");
+              },
+            ),
+            LoginButton(
+              margin: EdgeInsets.fromLTRB(0, 8, 0, 8),
+              color: colorGreen,
+              borderColor: colorGreen,
+              borderRadius: 4,
+              text: "Add to Adress book",
+              onClick: () {
+                Navigator.of(context).pop();
+                NavigationProvider.of(parentContext).setTab(SECOND_SCREEN);
+                NavigationProvider.of(parentContext).setTitle("Contact");
+                widget.callDialog();
+                widget.setRecepient(_recipientController.text);
+              },
+            ),
+          ],
         );
       },
     );
@@ -343,7 +330,7 @@ class _SendPageState extends State<SendPage> {
                 ),
                 child: InkWell(
                   onTap: () {
-                    _showMyDialog();
+                    _showMyDialog(context);
                   },
                   child: Container(
                     child: Center(

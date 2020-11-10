@@ -214,6 +214,7 @@ class FABBottomAppBar extends StatefulWidget {
     this.selectedColor,
     this.notchedShape,
     this.onTabSelected,
+    this.selectedIndex,
   }) {
     assert(this.items.length == 2 || this.items.length == 4);
   }
@@ -226,28 +227,20 @@ class FABBottomAppBar extends StatefulWidget {
   final Color selectedColor;
   final NotchedShape notchedShape;
   final ValueChanged<int> onTabSelected;
+  final int selectedIndex;
 
   @override
   State<StatefulWidget> createState() => FABBottomAppBarState();
 }
 
 class FABBottomAppBarState extends State<FABBottomAppBar> {
-  int _selectedIndex = 0;
-
-  _updateIndex(int index) {
-    widget.onTabSelected(index);
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     List<Widget> items = List.generate(widget.items.length, (int index) {
       return _buildTabItem(
         item: widget.items[index],
         index: index,
-        onPressed: _updateIndex,
+        onPressed: widget.onTabSelected,
       );
     });
     items.insert(items.length >> 1, _buildMiddleTabItem());
@@ -287,7 +280,8 @@ class FABBottomAppBarState extends State<FABBottomAppBar> {
     int index,
     ValueChanged<int> onPressed,
   }) {
-    Color color = _selectedIndex == index ? widget.selectedColor : widget.color;
+    Color color =
+        widget.selectedIndex == index ? widget.selectedColor : widget.color;
     return Expanded(
       child: SizedBox(
         height: widget.height,
@@ -305,6 +299,87 @@ class FABBottomAppBarState extends State<FABBottomAppBar> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class CustomAlertDialog extends StatelessWidget {
+  CustomAlertDialog({
+    this.title,
+    this.icon,
+    this.bodyTitle,
+    this.bodySubtitle,
+    this.bodyAction,
+    this.action,
+  });
+  final String title;
+  final Icon icon;
+  final String bodyTitle;
+  final String bodySubtitle;
+  final List<Widget> bodyAction;
+  final List<Widget> action;
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text(
+        title ?? "Custom Alert Dialog",
+        textAlign: TextAlign.center,
+      ),
+      content: SingleChildScrollView(
+          child: ListBody(children: [
+        Container(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              icon ??
+                  Icon(
+                    Icons.check_circle,
+                    color: colorGreen,
+                    size: 60,
+                  ),
+              Text(
+                bodyTitle ?? "Your transaction is on the way!",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              Text(bodySubtitle ?? ""),
+              Column(
+                children: bodyAction ?? <Widget>[],
+              )
+            ],
+          ),
+        )
+      ])),
+      actions: action ?? <Widget>[],
+    );
+  }
+}
+
+class ExitAlertDialog extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text('Exit?'),
+      actions: <Widget>[
+        FlatButton(
+          onPressed: () {
+            Navigator.of(context).pop(false);
+          },
+          child: Text(
+            'Cancel',
+            style: Theme.of(context).textTheme.button.copyWith(
+                  fontWeight: FontWeight.normal,
+                ),
+          ),
+        ),
+        FlatButton(
+          onPressed: () {
+            Navigator.of(context).pop(true);
+          },
+          child: Text('Exit'),
+        ),
+      ],
     );
   }
 }

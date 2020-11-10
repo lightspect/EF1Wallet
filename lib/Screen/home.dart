@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:wallet_app_ef1/Common/color_utils.dart';
 import 'package:wallet_app_ef1/Common/reusable_widget.dart';
 import 'package:wallet_app_ef1/Model/coinModel.dart';
+import 'package:wallet_app_ef1/Model/navigationModel.dart';
+import 'package:wallet_app_ef1/Screen/wallet.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key key, this.title}) : super(key: key);
 
   final String title;
+
+  static const route = '/home';
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -52,7 +56,13 @@ class _HomePageState extends State<HomePage> {
                                   AssetImage('assets/images/wallet_button.png'),
                               fit: BoxFit.cover)),
                       child: InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          NavigationProvider.of(context).setAppBar(true);
+                          Navigator.of(
+                            context,
+                            rootNavigator: false,
+                          ).pushNamed(WalletPage.route);
+                        },
                         child: Container(
                           padding: EdgeInsets.all(16),
                           height: 178,
@@ -135,6 +145,7 @@ class _HomePageState extends State<HomePage> {
                           children: [
                             Image(
                               image: coinModel[index].icon,
+                              width: 40,
                             ),
                             Column(
                               mainAxisAlignment: MainAxisAlignment.center,

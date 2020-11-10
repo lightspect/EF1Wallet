@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:wallet_app_ef1/Common/color_utils.dart';
 import 'package:wallet_app_ef1/Model/contactModel.dart';
+import 'package:wallet_app_ef1/Model/navigationModel.dart';
 
 class ContactPage extends StatefulWidget {
   const ContactPage({Key key, this.title}) : super(key: key);
 
   final String title;
+
+  static const route = '/contact';
 
   @override
   _ContactPageState createState() => _ContactPageState();
@@ -15,6 +18,7 @@ class ContactPage extends StatefulWidget {
 class _ContactPageState extends State<ContactPage> {
   final _searchController = TextEditingController();
   final _debouncer = Debouncer(milliseconds: 500);
+  String _qrAction = "getAddress";
 
   void search(String search) {
     searchList = [];
@@ -32,6 +36,16 @@ class _ContactPageState extends State<ContactPage> {
         searchList = [];
       });
     }
+  }
+
+  void _navigateAndReturnData() async {
+    final result = await Navigator.of(context, rootNavigator: true)
+        .pushNamed('/qrscan', arguments: _qrAction);
+    setState(() {
+      if (result.toString() != "null") {
+        _searchController.text = result.toString();
+      }
+    });
   }
 
   @override
@@ -63,7 +77,8 @@ class _ContactPageState extends State<ContactPage> {
                   suffixIcon: IconButton(
                     icon: Icon(Icons.qr_code_scanner),
                     onPressed: () {
-                      Navigator.pushNamed(context, '/qrscan');
+                      _navigateAndReturnData();
+                      search(_searchController.text);
                     },
                   ),
                   hintText: "Search",
@@ -99,6 +114,9 @@ class _ContactPageState extends State<ContactPage> {
             ),
             Flexible(
               child: GroupedListView<ContactModel, String>(
+                controller: NavigationProvider.of(context)
+                    .screens[SECOND_SCREEN]
+                    .scrollController,
                 elements: searchList.isEmpty ? contactList : searchList,
                 groupBy: (element) => element.alias.substring(0, 1),
                 groupSeparatorBuilder: (String groupByValue) => Container(

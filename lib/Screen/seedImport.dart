@@ -210,7 +210,9 @@ class _SeedImportPageState extends State<SeedImportPage> {
                         _showMyDialog();
                       } else {
                         _formKey.currentState.save();
-                        Navigator.pushNamed(context, '/navigationMenu');
+                        FocusScope.of(context).unfocus();
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, '/navigationMenu', (r) => false);
                       }
                     },
                     borderColor: colorBlue,

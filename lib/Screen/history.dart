@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:wallet_app_ef1/Common/color_utils.dart';
+import 'package:wallet_app_ef1/Model/navigationModel.dart';
 import 'package:wallet_app_ef1/Model/transactionModel.dart';
 
 class HistoryPage extends StatefulWidget {
   const HistoryPage({Key key, this.title}) : super(key: key);
 
   final String title;
+
+  static const route = '/history';
 
   @override
   _HistoryState createState() => _HistoryState();
@@ -178,6 +181,9 @@ class _HistoryState extends State<HistoryPage> {
               _buildFilter(),
               Flexible(
                 child: ListView.builder(
+                    controller: NavigationProvider.of(context)
+                        .screens[THIRD_SCREEN]
+                        .scrollController,
                     itemCount: filteredTransaction.length,
                     itemBuilder: (BuildContext context, int index) {
                       return _buildCard(index);
