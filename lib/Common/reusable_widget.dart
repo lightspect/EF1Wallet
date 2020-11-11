@@ -99,6 +99,7 @@ class TextFormFieldWidget extends StatefulWidget {
   final TextInputAction actionKeyboard;
   final Function onSubmitField;
   final Function onFieldTap;
+  final Function onChange;
   final EdgeInsets padding;
 
   const TextFormFieldWidget(
@@ -115,7 +116,8 @@ class TextFormFieldWidget extends StatefulWidget {
       this.onFieldTap,
       this.prefixIcon,
       this.suffixIcon,
-      this.padding});
+      this.padding,
+      this.onChange});
 
   @override
   _TextFormFieldWidgetState createState() => _TextFormFieldWidgetState();
@@ -191,6 +193,9 @@ class _TextFormFieldWidgetState extends State<TextFormFieldWidget> {
         },
         onTap: () {
           if (widget.onFieldTap != null) widget.onFieldTap();
+        },
+        onChanged: (value) {
+          if (widget.onChange != null) widget.onChange();
         },
       ),
     );

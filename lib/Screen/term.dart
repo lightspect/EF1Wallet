@@ -19,7 +19,7 @@ class _TermServiceState extends State<TermService> {
         width: MediaQuery.of(context).size.width,
         child: Column(
           children: [
-            LoginLogo(),
+            LoginLogo(width: MediaQuery.of(context).size.width / 2.5),
             Container(
               margin: EdgeInsets.only(bottom: 12.0),
               child:

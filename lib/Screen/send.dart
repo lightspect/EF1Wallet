@@ -23,6 +23,7 @@ class _SendPageState extends State<SendPage> {
   final _feesController = TextEditingController();
   final FocusNode _recipientControllerFocus = FocusNode();
   final FocusNode _amountControllerFocus = FocusNode();
+  final _formKey = GlobalKey<FormState>();
   final String _qrAction = "getAddress";
   List<DropdownMenuItem<CoinModel>> _dropdownMenuItems;
   List<FeesModel> _feeOptions;
@@ -149,6 +150,27 @@ class _SendPageState extends State<SendPage> {
     );
   }
 
+  bool isNumeric(String s) {
+    if (s == null) {
+      return false;
+    }
+    return double.parse(s, (e) => null) != null;
+  }
+
+  String checkRecipient(String recipient) {
+    if (recipient.isEmpty || recipient == null) {
+      return "Please enter a recipient";
+    }
+    return null;
+  }
+
+  String checkAmount(String amount) {
+    if (!isNumeric(amount)) {
+      return "Please enter number for amount";
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -208,113 +230,120 @@ class _SendPageState extends State<SendPage> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8)),
               child: Container(
-                padding: EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(bottom: 30),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Recipient"),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  padding: EdgeInsets.all(16),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(bottom: 30),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Container(
-                                width: 172,
-                                child: TextFormFieldWidget(
-                                  padding: EdgeInsets.only(top: 20),
-                                  hintText: "Recipient",
-                                  textInputType: TextInputType.text,
-                                  actionKeyboard: TextInputAction.done,
-                                  controller: _recipientController,
-                                  focusNode: _recipientControllerFocus,
-                                  onSubmitField: () {},
-                                ),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  _navigateAndReturnData();
-                                },
-                                child: Icon(
-                                  Icons.qr_code_scanner,
-                                  size: 26.0,
-                                ),
+                              Text("Recipient"),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(
+                                    width: 172,
+                                    child: TextFormFieldWidget(
+                                      padding: EdgeInsets.only(top: 20),
+                                      hintText: "Recipient",
+                                      textInputType: TextInputType.text,
+                                      actionKeyboard: TextInputAction.next,
+                                      functionValidate: checkRecipient,
+                                      controller: _recipientController,
+                                      focusNode: _recipientControllerFocus,
+                                      onSubmitField: () {
+                                        changeFocus(
+                                            context,
+                                            _recipientControllerFocus,
+                                            _amountControllerFocus);
+                                      },
+                                    ),
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      _navigateAndReturnData();
+                                    },
+                                    child: Icon(
+                                      Icons.qr_code_scanner,
+                                      size: 26.0,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(bottom: 30),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Amount"),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(bottom: 30),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Container(
-                                width: 172,
-                                child: TextFormFieldWidget(
-                                  padding: EdgeInsets.only(top: 20),
-                                  hintText: "Amount",
-                                  textInputType: TextInputType.text,
-                                  actionKeyboard: TextInputAction.done,
-                                  controller: _amountController,
-                                  focusNode: _amountControllerFocus,
-                                  onSubmitField: () {
-                                    changeFocus(
-                                        context,
-                                        _recipientControllerFocus,
-                                        _amountControllerFocus);
-                                  },
-                                ),
-                              ),
-                              DropdownButtonHideUnderline(
-                                child: DropdownButton(
-                                    value: _selectedItem,
-                                    items: _dropdownMenuItems,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        _selectedItem = value;
-                                      });
-                                    }),
+                              Text("Amount"),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(
+                                    width: 172,
+                                    child: TextFormFieldWidget(
+                                      padding: EdgeInsets.only(top: 20),
+                                      hintText: "Amount",
+                                      textInputType: TextInputType.text,
+                                      actionKeyboard: TextInputAction.done,
+                                      functionValidate: checkAmount,
+                                      controller: _amountController,
+                                      focusNode: _amountControllerFocus,
+                                      onSubmitField: () {},
+                                    ),
+                                  ),
+                                  DropdownButtonHideUnderline(
+                                    child: DropdownButton(
+                                        value: _selectedItem,
+                                        items: _dropdownMenuItems,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            _selectedItem = value;
+                                          });
+                                        }),
+                                  )
+                                ],
                               )
                             ],
-                          )
-                        ],
-                      ),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(bottom: 12),
+                          width: 500,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("Fee"),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: createFeesList(),
+                              )
+                            ],
+                          ),
+                        ),
+                        TextFormFieldWidget(
+                          hintText: "",
+                          enable: false,
+                          textInputType: TextInputType.text,
+                          actionKeyboard: TextInputAction.done,
+                          controller: _feesController,
+                        ),
+                      ],
                     ),
-                    Container(
-                      margin: EdgeInsets.only(bottom: 12),
-                      width: 500,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Fee"),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: createFeesList(),
-                          )
-                        ],
-                      ),
-                    ),
-                    TextFormFieldWidget(
-                      hintText: "",
-                      enable: false,
-                      textInputType: TextInputType.text,
-                      actionKeyboard: TextInputAction.done,
-                      controller: _feesController,
-                    ),
-                  ],
-                ),
-              ),
+                  )),
             ),
             Container(
-              margin: EdgeInsets.only(top: 40),
+              margin: EdgeInsets.only(top: 20),
               height: 52,
               child: Ink(
                 decoration: BoxDecoration(
@@ -323,7 +352,13 @@ class _SendPageState extends State<SendPage> {
                 ),
                 child: InkWell(
                   onTap: () {
-                    _showMyDialog(context);
+                    var validate = _formKey.currentState.validate();
+                    if (!validate) {
+                    } else {
+                      _formKey.currentState.save();
+                      FocusScope.of(context).unfocus();
+                      _showMyDialog(context);
+                    }
                   },
                   child: Container(
                     child: Center(

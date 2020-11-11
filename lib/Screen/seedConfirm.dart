@@ -68,128 +68,6 @@ class _SeedConfirmPageState extends State<SeedConfirmPage> {
       );
     }
 
-    /*return ChangeNotifierProvider<ButtonModel>(
-        create: (context) => ButtonModel(),
-        child: Builder(builder: (context) {
-          return Scaffold(
-            appBar: AppBar(
-              backgroundColor: colorBG,
-              leading: BackButton(color: colorBlue),
-              elevation: 0,
-              title: Text(
-                "Back",
-                style: TextStyle(color: colorBlue),
-              ),
-            ),
-            body: Container(
-              padding: EdgeInsets.only(
-                left: 16,
-                right: 16,
-              ),
-              child: Column(
-                children: <Widget>[
-                  LoginLogo(
-                    width: MediaQuery.of(context).size.width / 2,
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 16, bottom: 4),
-                    padding: EdgeInsets.symmetric(horizontal: 60),
-                    child: Text(
-                      "Confirm your Secret Backup Phrase",
-                      style: loginTitleStyle,
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  Text(
-                    "Please select each phrase in order to make sure it is correct.",
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: colorBlack,
-                    ),
-                    textAlign: TextAlign.justify,
-                  ),
-                  Container(
-                    height: 120,
-                    padding: EdgeInsets.all(32.0),
-                    margin: EdgeInsets.only(top: 28, bottom: 28),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        color: colorBlack),
-                    child: Center(child: Consumer<ButtonModel>(
-                        builder: (context, provider, child) {
-                      return Text(
-                        provider.seedString,
-                        style: TextStyle(color: Colors.white),
-                      );
-                    })),
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 120,
-                    child: GridView.count(
-                      crossAxisCount: 4,
-                      crossAxisSpacing: 8,
-                      mainAxisSpacing: 8,
-                      childAspectRatio: MediaQuery.of(context).size.width /
-                          (MediaQuery.of(context).size.height / 5),
-                      children: <Widget>[
-                        for (var i = 0; i < seedArray.length; i++)
-                          Consumer<ButtonModel>(
-                              builder: (context, provider, child) {
-                            return MaterialButton(
-                              color: provider.clicked[i]
-                                  ? colorBlack
-                                  : colorLightBlue,
-                              textColor: provider.clicked[i]
-                                  ? Colors.white
-                                  : colorBlue,
-                              minWidth: MediaQuery.of(context).size.width,
-                              height: 32,
-                              child: Text(
-                                seedArray[i],
-                                style: TextStyle(fontSize: 12),
-                              ),
-                              onPressed: () {
-                                provider.checkClicked(
-                                    seedArray, seedArray[i], i);
-                                provider.changeArray(seedArray, seedArray[i]);
-                              },
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(4),
-                              ),
-                            );
-                          })
-                      ],
-                    ),
-                  ),
-                  Consumer<ButtonModel>(
-                    builder: (context, provider, child) {
-                      return LoginButton(
-                        margin: EdgeInsets.only(top: 24),
-                        minWidth: 160,
-                        height: 48,
-                        color: colorBlue,
-                        textColor: Colors.white,
-                        text: "Next",
-                        fontSize: 20,
-                        borderColor: colorBlue,
-                        borderRadius: 5,
-                        onClick: () {
-                          provider.checkArray(seed);
-                          if (provider.check) {
-                            Navigator.pushNamed(context, '/seedSuccess');
-                          } else {
-                            _showMyDialog();
-                          }
-                        },
-                      );
-                    },
-                  )
-                ],
-              ),
-            ),
-          );
-        }));*/
     return Scaffold(
       appBar: AppBar(
         backgroundColor: colorBG,
@@ -202,13 +80,14 @@ class _SeedConfirmPageState extends State<SeedConfirmPage> {
       ),
       body: Container(
         padding: EdgeInsets.only(
+          top: 16,
           left: 16,
           right: 16,
         ),
         child: Column(
           children: <Widget>[
             LoginLogo(
-              width: MediaQuery.of(context).size.width / 2,
+              width: MediaQuery.of(context).size.width / 3.5,
             ),
             Container(
               margin: EdgeInsets.only(top: 16, bottom: 4),
@@ -246,7 +125,7 @@ class _SeedConfirmPageState extends State<SeedConfirmPage> {
                   ),
                   Container(
                     width: MediaQuery.of(context).size.width,
-                    height: 120,
+                    height: 160,
                     child: GridView.count(
                       crossAxisCount: 4,
                       crossAxisSpacing: 8,

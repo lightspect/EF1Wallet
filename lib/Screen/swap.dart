@@ -21,6 +21,7 @@ class _SwapPageState extends State<SwapPage> {
   final _feesController = TextEditingController();
   final FocusNode _sendControllerFocus = FocusNode();
   final FocusNode _receiveControllerFocus = FocusNode();
+  final _formKey = GlobalKey<FormState>();
   List<DropdownMenuItem<CoinModel>> _dropdownFromItems;
   List<DropdownMenuItem<CoinModel>> _dropdownToItems;
   List<FeesModel> _feeOptions;
@@ -129,6 +130,20 @@ class _SwapPageState extends State<SwapPage> {
     );
   }
 
+  bool isNumeric(String s) {
+    if (s == null) {
+      return false;
+    }
+    return double.parse(s, (e) => null) != null;
+  }
+
+  String checkAmount(String amount) {
+    if (!isNumeric(amount)) {
+      return "Please enter number";
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -189,106 +204,110 @@ class _SwapPageState extends State<SwapPage> {
                   borderRadius: BorderRadius.circular(8)),
               child: Container(
                 padding: EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(bottom: 30),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("From"),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(
-                                width: 172,
-                                child: TextFormFieldWidget(
-                                  padding: EdgeInsets.only(top: 20),
-                                  hintText: _selectedFrom.name,
-                                  textInputType: TextInputType.text,
-                                  actionKeyboard: TextInputAction.done,
-                                  controller: _sendController,
-                                  focusNode: _sendControllerFocus,
-                                  onSubmitField: () {
-                                    changeFocus(context, _sendControllerFocus,
-                                        _receiveControllerFocus);
-                                  },
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(bottom: 30),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("From"),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  width: 172,
+                                  child: TextFormFieldWidget(
+                                    padding: EdgeInsets.only(top: 20),
+                                    hintText: _selectedFrom.name,
+                                    textInputType: TextInputType.text,
+                                    actionKeyboard: TextInputAction.done,
+                                    functionValidate: checkAmount,
+                                    controller: _sendController,
+                                    focusNode: _sendControllerFocus,
+                                    onSubmitField: () {
+                                      changeFocus(context, _sendControllerFocus,
+                                          _receiveControllerFocus);
+                                    },
+                                  ),
                                 ),
-                              ),
-                              DropdownButtonHideUnderline(
-                                child: DropdownButton(
-                                    value: _selectedFrom,
-                                    items: _dropdownFromItems,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        _selectedFrom = value;
-                                      });
-                                    }),
-                              )
-                            ],
-                          ),
-                        ],
+                                DropdownButtonHideUnderline(
+                                  child: DropdownButton(
+                                      value: _selectedFrom,
+                                      items: _dropdownFromItems,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          _selectedFrom = value;
+                                        });
+                                      }),
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(bottom: 30),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Amount"),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(
-                                width: 172,
-                                child: TextFormFieldWidget(
-                                  padding: EdgeInsets.only(top: 20),
-                                  hintText: _selectedTo.name,
-                                  textInputType: TextInputType.text,
-                                  actionKeyboard: TextInputAction.done,
-                                  controller: _receiveController,
-                                  focusNode: _receiveControllerFocus,
-                                  onSubmitField: () {},
+                      Container(
+                        margin: EdgeInsets.only(bottom: 30),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("To"),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  width: 172,
+                                  child: TextFormFieldWidget(
+                                    padding: EdgeInsets.only(top: 20),
+                                    hintText: _selectedTo.name,
+                                    textInputType: TextInputType.text,
+                                    actionKeyboard: TextInputAction.done,
+                                    controller: _receiveController,
+                                    focusNode: _receiveControllerFocus,
+                                    onSubmitField: () {},
+                                  ),
                                 ),
-                              ),
-                              DropdownButtonHideUnderline(
-                                child: DropdownButton(
-                                    value: _selectedTo,
-                                    items: _dropdownToItems,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        _selectedTo = value;
-                                      });
-                                    }),
-                              )
-                            ],
-                          )
-                        ],
+                                DropdownButtonHideUnderline(
+                                  child: DropdownButton(
+                                      value: _selectedTo,
+                                      items: _dropdownToItems,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          _selectedTo = value;
+                                        });
+                                      }),
+                                )
+                              ],
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(bottom: 12),
-                      width: 500,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Fee"),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: createFeesList(),
-                          )
-                        ],
+                      Container(
+                        margin: EdgeInsets.only(bottom: 12),
+                        width: 500,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("Fee"),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: createFeesList(),
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                    TextFormFieldWidget(
-                      hintText: "",
-                      enable: false,
-                      textInputType: TextInputType.text,
-                      actionKeyboard: TextInputAction.done,
-                      controller: _feesController,
-                    ),
-                  ],
+                      TextFormFieldWidget(
+                        hintText: "",
+                        enable: false,
+                        textInputType: TextInputType.text,
+                        actionKeyboard: TextInputAction.done,
+                        controller: _feesController,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -302,7 +321,13 @@ class _SwapPageState extends State<SwapPage> {
                 ),
                 child: InkWell(
                   onTap: () {
-                    _showMyDialog(context);
+                    var validate = _formKey.currentState.validate();
+                    if (!validate) {
+                    } else {
+                      _formKey.currentState.save();
+                      FocusScope.of(context).unfocus();
+                      _showMyDialog(context);
+                    }
                   },
                   child: Container(
                     child: Center(

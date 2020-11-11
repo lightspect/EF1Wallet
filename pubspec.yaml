@@ -66,6 +66,7 @@ flutter:
     - assets/images/wallet_button.png
     - assets/images/coin_ef1.png
     - assets/images/coin_eth.png
+    - assets/images/coin_btc.png
     - assets/images/send_refresh.png
     - assets/images/wallet_card.png
   # An image asset can refer to one or more resolution-specific "variants", see

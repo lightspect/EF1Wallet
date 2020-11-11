@@ -276,7 +276,8 @@ class _NavMenuState extends State<NavMenu>
                     child: Column(
                       children: <Widget>[
                         Container(
-                          height: 108,
+                          padding: EdgeInsets.only(top: 20),
+                          height: 148,
                           color: colorLightBlue,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -315,6 +316,15 @@ class _NavMenuState extends State<NavMenu>
                           ),
                         ),
                         Column(children: _drawerOptions()),
+                        Spacer(),
+                        Container(
+                          margin: EdgeInsets.only(right: 16, bottom: 16),
+                          alignment: Alignment.bottomRight,
+                          child: Text(
+                            "preview v0.01",
+                            style: TextStyle(color: Colors.grey),
+                          ),
+                        )
                       ],
                     ),
                   ),

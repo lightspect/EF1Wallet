@@ -54,11 +54,13 @@ class _IntroPageState extends State<IntroPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.only(top: 32),
+        padding: EdgeInsets.only(top: 48),
         child: Column(
           //crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            LoginLogo(),
+            LoginLogo(
+              width: MediaQuery.of(context).size.width / 2.5,
+            ),
             Container(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,

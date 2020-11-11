@@ -90,7 +90,7 @@ class _SeedImportPageState extends State<SeedImportPage> {
         ),
       ),
       body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 16),
+        padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
         width: MediaQuery.of(context).size.width,
         child: SingleChildScrollView(
           child: SizedBox(
@@ -99,7 +99,7 @@ class _SeedImportPageState extends State<SeedImportPage> {
               key: _formKey,
               child: Column(
                 children: <Widget>[
-                  LoginLogo(),
+                  LoginLogo(width: MediaQuery.of(context).size.width / 2.5),
                   Container(
                     margin: EdgeInsets.only(top: 16, bottom: 4),
                     padding: EdgeInsets.symmetric(horizontal: 60),

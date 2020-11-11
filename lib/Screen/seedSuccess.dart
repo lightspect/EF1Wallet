@@ -27,7 +27,7 @@ class _SeedSuccessPageState extends State<SeedSuccessPage> {
         child: Column(
           children: <Widget>[
             LoginLogo(
-              width: MediaQuery.of(context).size.width / 2,
+              width: MediaQuery.of(context).size.width / 3.5,
             ),
             Text(
               "Congratulation",

@@ -25,7 +25,7 @@ List<CoinModel> coinModel = [
     "BTC",
     126.456,
     123.444,
-    AssetImage('assets/images/coin_eth.png'),
+    AssetImage('assets/images/coin_btc.png'),
   ),
   CoinModel(
     "USDT",

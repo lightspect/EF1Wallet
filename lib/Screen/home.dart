@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:wallet_app_ef1/Common/color_utils.dart';
 import 'package:wallet_app_ef1/Common/reusable_widget.dart';
@@ -18,6 +20,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  double roundDouble(double value, int places) {
+    double mod = pow(10.0, places);
+    return ((value * mod).round().toDouble() / mod);
+  }
+
   @override
   void initState() {
     super.initState();
@@ -160,22 +167,59 @@ class _HomePageState extends State<HomePage> {
                               width: 40,
                             ),
                             Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   coinModel[index].name,
                                   style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
-                                Text(coinModel[index].price.toString()),
+                                Text(
+                                  r"$ " + coinModel[index].lastPrice.toString(),
+                                  style: TextStyle(
+                                      fontSize: 12, color: Colors.grey),
+                                ),
                               ],
                             ),
                             Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
                                 Text(coinModel[index].price.toString()),
-                                Text(coinModel[index].lastPrice.toString()),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Icon(
+                                      coinModel[index].price >=
+                                              coinModel[index].lastPrice
+                                          ? Icons.arrow_drop_up
+                                          : Icons.arrow_drop_down,
+                                      color: coinModel[index].price >=
+                                              coinModel[index].lastPrice
+                                          ? colorGreen
+                                          : colorRed,
+                                    ),
+                                    Text(
+                                      roundDouble(
+                                                  (coinModel[index].lastPrice -
+                                                              coinModel[index]
+                                                                  .price)
+                                                          .abs() /
+                                                      100,
+                                                  2)
+                                              .toString() +
+                                          " %",
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: coinModel[index].price >=
+                                                coinModel[index].lastPrice
+                                            ? colorGreen
+                                            : colorRed,
+                                      ),
+                                    ),
+                                  ],
+                                )
                               ],
                             ),
                             LoginButton(

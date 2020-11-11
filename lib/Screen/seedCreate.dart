@@ -58,11 +58,11 @@ class _SeedCreatePageState extends State<SeedCreatePage> {
         ),
         body: Container(
             width: MediaQuery.of(context).size.width,
-            padding: EdgeInsets.symmetric(horizontal: 16),
+            padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
             child: Column(
               children: <Widget>[
                 LoginLogo(
-                  width: MediaQuery.of(context).size.width / 2,
+                  width: MediaQuery.of(context).size.width / 3.5,
                 ),
                 Text(
                   "Secret Backup Phrase",
