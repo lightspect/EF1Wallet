@@ -221,19 +221,26 @@ class _NavMenuState extends State<NavMenu>
                     ),
                   )
                   .toList();
-
+              bool _backButtonVisible =
+                  provider.currentScreen.navigatorState.currentState != null &&
+                          !provider.sendPage
+                      ? provider.currentScreen.navigatorState.currentState
+                          .canPop()
+                      : provider.appBarVisible;
               return WillPopScope(
                 onWillPop: () async => provider.onWillPop(context),
                 child: Scaffold(
                   appBar: AppBar(
                     title: Text(
-                      provider.title,
+                      provider.childTitle.isNotEmpty && provider.title.isEmpty
+                          ? provider.childTitle
+                          : provider.title,
                       style: TextStyle(color: colorBlack),
                     ),
                     elevation: 0,
                     backgroundColor: colorBG,
                     iconTheme: IconThemeData(color: colorBlack),
-                    leading: provider.appBarVisible
+                    leading: _backButtonVisible
                         ? IconButton(
                             icon: Icon(Icons.arrow_back),
                             onPressed: () => provider.onWillPop(context),
@@ -339,6 +346,8 @@ class _NavMenuState extends State<NavMenu>
                       onPressed: () {
                         provider.setSendPage(true);
                         provider.setSelectedColor(Colors.grey);
+                        provider.setAppBar(false);
+                        provider.setChildTitle("");
                       },
                       tooltip: 'Send',
                       child: Transform.rotate(

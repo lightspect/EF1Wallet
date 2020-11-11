@@ -3,6 +3,7 @@ import 'package:wallet_app_ef1/Common/color_utils.dart';
 import 'package:wallet_app_ef1/Common/reusable_widget.dart';
 import 'package:wallet_app_ef1/Model/coinModel.dart';
 import 'package:wallet_app_ef1/Model/navigationModel.dart';
+import 'package:wallet_app_ef1/Screen/swap.dart';
 import 'package:wallet_app_ef1/Screen/wallet.dart';
 
 class HomePage extends StatefulWidget {
@@ -58,6 +59,9 @@ class _HomePageState extends State<HomePage> {
                       child: InkWell(
                         onTap: () {
                           NavigationProvider.of(context).setAppBar(true);
+                          NavigationProvider.of(context).setTitle("");
+                          NavigationProvider.of(context)
+                              .setChildTitle("Wallet");
                           Navigator.of(
                             context,
                             rootNavigator: false,
@@ -100,7 +104,15 @@ class _HomePageState extends State<HomePage> {
                                   AssetImage('assets/images/swap_button.png'),
                               fit: BoxFit.cover)),
                       child: InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          NavigationProvider.of(context).setAppBar(true);
+                          NavigationProvider.of(context).setTitle("");
+                          NavigationProvider.of(context).setChildTitle("Swap");
+                          Navigator.of(
+                            context,
+                            rootNavigator: false,
+                          ).pushNamed(SwapPage.route);
+                        },
                         child: Container(
                           padding: EdgeInsets.all(16),
                           height: 178,

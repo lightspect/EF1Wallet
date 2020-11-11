@@ -8,6 +8,7 @@ import 'package:wallet_app_ef1/Screen/history.dart';
 import 'package:wallet_app_ef1/Screen/home.dart';
 import 'package:wallet_app_ef1/Screen/navMenu.dart';
 import 'package:wallet_app_ef1/Screen/profile.dart';
+import 'package:wallet_app_ef1/Screen/swap.dart';
 import 'package:wallet_app_ef1/Screen/wallet.dart';
 
 import 'screenModel.dart';
@@ -34,11 +35,25 @@ class NavigationProvider extends ChangeNotifier {
 
   bool get sendPage => _sendPage;
 
+  String _title = "Home";
+
+  String get title => _title;
+
+  String _childTitle = "";
+
+  String get childTitle => _childTitle;
+
+  Color _selectedColor = colorBlue;
+
+  Color get selectedColor => _selectedColor;
+
   Route<dynamic> onGenerateRoute(RouteSettings settings) {
     print('Generating route: ${settings.name}');
     switch (settings.name) {
       case WalletPage.route:
         return MaterialPageRoute(builder: (_) => WalletPage());
+      case SwapPage.route:
+        return MaterialPageRoute(builder: (_) => SwapPage());
       default:
         return MaterialPageRoute(builder: (_) => NavMenu());
     }
@@ -55,6 +70,8 @@ class NavigationProvider extends ChangeNotifier {
         switch (settings.name) {
           case WalletPage.route:
             return MaterialPageRoute(builder: (_) => WalletPage());
+          case SwapPage.route:
+            return MaterialPageRoute(builder: (_) => SwapPage());
           default:
             return MaterialPageRoute(builder: (_) => HomePage());
         }
@@ -107,18 +124,17 @@ class NavigationProvider extends ChangeNotifier {
 
   Screen get currentScreen => _screens[_currentScreenIndex];
 
-  String _title = "Home";
-
-  String get title => _title;
-
-  Color _selectedColor = colorBlue;
-
-  Color get selectedColor => _selectedColor;
-
   /// Set currently visible tab.
   void setTab(int tab) {
+    final currentNavigatorState = currentScreen.navigatorState.currentState;
     if (tab == currentTabIndex) {
+      /// Check if user not in Send Page
       if (!_sendPage) {
+        /// Check if user in a child Page then when press will go to Parent Page
+        if (currentNavigatorState.canPop()) {
+          currentNavigatorState.pop();
+          _appBarVisibility = false;
+        }
         _scrollToStart();
       } else {
         _appBarVisibility = false;
@@ -139,6 +155,12 @@ class NavigationProvider extends ChangeNotifier {
   /// Set title
   void setTitle(String title) {
     _title = title;
+    notifyListeners();
+  }
+
+  /// Set child title
+  void setChildTitle(String childTitle) {
+    _childTitle = childTitle;
     notifyListeners();
   }
 
@@ -179,19 +201,32 @@ class NavigationProvider extends ChangeNotifier {
 
     if (_sendPage) {
       setTab(FIRST_SCREEN);
-      _sendPage = false;
-      _title = "Home";
+      setSendPage(false);
+      setTitle("Home");
+      setChildTitle("");
       notifyListeners();
+      print("From Send Page");
+      print("Title: " + title + " Child: " + childTitle);
       return false;
     } else if (currentNavigatorState.canPop()) {
-      _appBarVisibility = false;
+      setAppBar(false);
+      setTitle(currentScreen.title);
       notifyListeners();
+      setChildTitle("");
       currentNavigatorState.pop();
+      print("From Child Page");
+      print("Title: " + title + " Child: " + childTitle);
       return false;
     } else {
       if (currentTabIndex != FIRST_SCREEN) {
         setTab(FIRST_SCREEN);
-        _title = "Home";
+        if (childTitle.isNotEmpty) {
+          setTitle("");
+        } else {
+          setTitle("Home");
+        }
+        print("From Other Page");
+        print("Title: " + title + " Child: " + childTitle);
         notifyListeners();
         return false;
       } else {

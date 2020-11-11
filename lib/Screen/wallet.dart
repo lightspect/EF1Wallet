@@ -1,7 +1,10 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_app_ef1/Common/color_utils.dart';
 import 'package:wallet_app_ef1/Common/reusable_widget.dart';
+import 'package:wallet_app_ef1/Model/coinModel.dart';
 import 'package:wallet_app_ef1/Model/navigationModel.dart';
 
 class WalletPage extends StatefulWidget {
@@ -16,6 +19,16 @@ class WalletPage extends StatefulWidget {
 }
 
 class _WalletPageState extends State<WalletPage> {
+  double roundDouble(double value, int places) {
+    double mod = pow(10.0, places);
+    return ((value * mod).round().toDouble() / mod);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<NavigationProvider>(
@@ -91,23 +104,167 @@ class _WalletPageState extends State<WalletPage> {
                                     ),
                                     LoginButton(
                                       height: 20,
-                                      minWidth: 80,
+                                      minWidth: 40,
                                       color: colorRed,
                                       borderColor: colorRed,
                                       text: 'Copy',
                                       textColor: Colors.white,
                                       borderRadius: 10,
                                       fontSize: 12,
-                                      margin: EdgeInsets.all(0),
+                                      margin: EdgeInsets.only(left: 12),
                                     ),
                                   ],
                                 ),
+                              ),
+                              Container(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "6,789.000 EF1",
+                                      style: TextStyle(
+                                          fontSize: 24, color: Colors.white),
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          "+0.15 USD/ EF1",
+                                          style: TextStyle(
+                                              fontSize: 12, color: colorGreen),
+                                        ),
+                                        Icon(
+                                          Icons.arrow_drop_up,
+                                          color: colorGreen,
+                                        ),
+                                        Text(
+                                          "1.23%",
+                                          style: TextStyle(
+                                              fontSize: 12, color: colorGreen),
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Text(
+                                r"$ 16,789.000",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 16),
                               )
                             ],
                           )
                         ],
                       ),
                     ),
+                  ),
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    padding: EdgeInsets.only(left: 16),
+                    child: Text(
+                      "24h price changes",
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ),
+                  Divider(
+                    color: Colors.grey,
+                  ),
+                  Flexible(
+                    child: ListView.separated(
+                        itemBuilder: (BuildContext context, int index) {
+                          return Container(
+                              padding: EdgeInsets.symmetric(horizontal: 16),
+                              height: 60,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Image(
+                                    image: coinModel[index].icon,
+                                    width: 40,
+                                  ),
+                                  Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        coinModel[index].name,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(
+                                        r"$ " +
+                                            coinModel[index]
+                                                .lastPrice
+                                                .toString(),
+                                        style: TextStyle(
+                                            fontSize: 12, color: Colors.grey),
+                                      ),
+                                    ],
+                                  ),
+                                  Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Text(coinModel[index].price.toString()),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Icon(
+                                            coinModel[index].price >=
+                                                    coinModel[index].lastPrice
+                                                ? Icons.arrow_drop_up
+                                                : Icons.arrow_drop_down,
+                                            color: coinModel[index].price >=
+                                                    coinModel[index].lastPrice
+                                                ? colorGreen
+                                                : colorRed,
+                                          ),
+                                          Text(
+                                            roundDouble(
+                                                        (coinModel[index]
+                                                                        .lastPrice -
+                                                                    coinModel[
+                                                                            index]
+                                                                        .price)
+                                                                .abs() /
+                                                            100,
+                                                        2)
+                                                    .toString() +
+                                                " %",
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              color: coinModel[index].price >=
+                                                      coinModel[index].lastPrice
+                                                  ? colorGreen
+                                                  : colorRed,
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                  LoginButton(
+                                    minWidth: 52,
+                                    height: 20,
+                                    text: "View",
+                                    textColor: Colors.white,
+                                    borderRadius: 10,
+                                    borderColor: colorGreen,
+                                    color: colorGreen,
+                                    fontSize: 10,
+                                  )
+                                ],
+                              ));
+                        },
+                        separatorBuilder: (BuildContext context, int index) =>
+                            const Divider(),
+                        itemCount: coinModel.length),
                   ),
                 ],
               ),

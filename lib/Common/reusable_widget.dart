@@ -330,7 +330,7 @@ class CustomAlertDialog extends StatelessWidget {
           child: ListBody(children: [
         Container(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               icon ??
@@ -343,7 +343,10 @@ class CustomAlertDialog extends StatelessWidget {
                 bodyTitle ?? "Your transaction is on the way!",
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
-              Text(bodySubtitle ?? ""),
+              Text(
+                bodySubtitle ?? "",
+                textAlign: TextAlign.center,
+              ),
               Column(
                 children: bodyAction ?? <Widget>[],
               )
