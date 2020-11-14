@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wallet_app_ef1/Common/color_utils.dart';
 import 'package:wallet_app_ef1/Common/reusable_widget.dart';
 import 'package:wallet_app_ef1/Common/styles.dart';
+import 'package:wallet_app_ef1/localizations.dart';
 
 class SeedSuccessPage extends StatefulWidget {
   SeedSuccessPage({Key key, this.title}) : super(key: key);
@@ -19,6 +20,7 @@ class _SeedSuccessPageState extends State<SeedSuccessPage> {
       appBar: AppBar(
         backgroundColor: colorBG,
         elevation: 0,
+        leading: Container(),
       ),
       body: Container(
         padding: EdgeInsets.symmetric(horizontal: 16),
@@ -30,7 +32,7 @@ class _SeedSuccessPageState extends State<SeedSuccessPage> {
               width: MediaQuery.of(context).size.width / 3.5,
             ),
             Text(
-              "Congratulation",
+              AppLocalizations.of(context).translate('congratulateTitle'),
               style: loginTitleStyle,
             ),
             Container(
@@ -42,7 +44,7 @@ class _SeedSuccessPageState extends State<SeedSuccessPage> {
               height: 48,
               color: colorBlue,
               textColor: Colors.white,
-              text: "Continue",
+              text: AppLocalizations.of(context).translate('nextButton'),
               fontSize: 20,
               borderColor: colorBlue,
               borderRadius: 5,

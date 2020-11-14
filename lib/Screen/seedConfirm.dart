@@ -4,6 +4,8 @@ import 'package:wallet_app_ef1/Common/reusable_widget.dart';
 import 'package:wallet_app_ef1/Common/styles.dart';
 import 'package:wallet_app_ef1/Model/buttonModel.dart';
 
+import '../localizations.dart';
+
 class SeedConfirmPage extends StatefulWidget {
   SeedConfirmPage({Key key, this.title}) : super(key: key);
 
@@ -74,7 +76,7 @@ class _SeedConfirmPageState extends State<SeedConfirmPage> {
         leading: BackButton(color: colorBlue),
         elevation: 0,
         title: Text(
-          "Back",
+          AppLocalizations.of(context).translate('backButton'),
           style: TextStyle(color: colorBlue),
         ),
       ),
@@ -93,13 +95,13 @@ class _SeedConfirmPageState extends State<SeedConfirmPage> {
               margin: EdgeInsets.only(top: 16, bottom: 4),
               padding: EdgeInsets.symmetric(horizontal: 60),
               child: Text(
-                "Confirm your Secret Backup Phrase",
+                AppLocalizations.of(context).translate('confirmSeedTitle'),
                 style: loginTitleStyle,
                 textAlign: TextAlign.center,
               ),
             ),
             Text(
-              "Please select each phrase in order to make sure it is correct.",
+              AppLocalizations.of(context).translate('confirmSeedText'),
               style: TextStyle(
                 fontSize: 12,
                 color: colorBlack,
@@ -168,7 +170,7 @@ class _SeedConfirmPageState extends State<SeedConfirmPage> {
               height: 48,
               color: colorBlue,
               textColor: Colors.white,
-              text: "Next",
+              text: AppLocalizations.of(context).translate('nextButton'),
               fontSize: 20,
               borderColor: colorBlue,
               borderRadius: 5,

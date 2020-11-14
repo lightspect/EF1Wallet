@@ -4,6 +4,8 @@ import 'package:wallet_app_ef1/Common/color_utils.dart';
 import 'package:wallet_app_ef1/Common/reusable_widget.dart';
 import 'package:wallet_app_ef1/Model/contactModel.dart';
 
+import '../localizations.dart';
+
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key key, this.title}) : super(key: key);
 
@@ -57,7 +59,7 @@ class _ProfilePageState extends State<ProfilePage> {
               margin: EdgeInsets.symmetric(vertical: 16),
             ),
             TextFormFieldWidget(
-              hintText: "Change Password",
+              hintText: AppLocalizations.instance.translate('changepassButton'),
               suffixIcon: IconButton(
                 icon: Icon(
                   Icons.arrow_forward_ios,

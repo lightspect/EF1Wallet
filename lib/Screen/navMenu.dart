@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_app_ef1/Common/color_utils.dart';
 import 'package:wallet_app_ef1/Common/reusable_widget.dart';
@@ -215,9 +216,15 @@ class _NavMenuState extends State<NavMenu>
               // Initialize [Navigator] instance for each screen.
               final screens = provider.screens
                   .map(
-                    (screen) => Navigator(
-                      key: screen.navigatorState,
-                      onGenerateRoute: screen.onGenerateRoute,
+                    (screen) => TickerMode(
+                      enabled: screen == provider.currentScreen,
+                      child: Offstage(
+                        offstage: screen != provider.currentScreen,
+                        child: Navigator(
+                          key: screen.navigatorState,
+                          onGenerateRoute: screen.onGenerateRoute,
+                        ),
+                      ),
                     ),
                   )
                   .toList();
@@ -308,6 +315,10 @@ class _NavMenuState extends State<NavMenu>
                                       borderRadius: 10,
                                       fontSize: 12,
                                       margin: EdgeInsets.all(0),
+                                      onClick: () {
+                                        Clipboard.setData(
+                                            new ClipboardData(text: ""));
+                                      },
                                     ),
                                   ],
                                 ),
@@ -329,12 +340,22 @@ class _NavMenuState extends State<NavMenu>
                     ),
                   ),
                   body: SafeArea(
-                    child: provider.sendPage
-                        ? _sendWidget()
-                        : IndexedStack(
-                            children: screens,
-                            index: provider.currentTabIndex,
-                          ),
+                    child: AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 500),
+                      transitionBuilder:
+                          (Widget child, Animation<double> animation) {
+                        return FadeTransition(
+                          child: child,
+                          opacity: animation,
+                        );
+                      },
+                      child: provider.sendPage
+                          ? _sendWidget()
+                          : FadeIndexedStack(
+                              children: screens,
+                              index: provider.currentTabIndex,
+                            ),
+                    ),
                   ),
                   bottomNavigationBar: FABBottomAppBar(
                     selectedIndex: provider.currentTabIndex,

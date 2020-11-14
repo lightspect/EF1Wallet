@@ -11,6 +11,7 @@ import 'package:wallet_app_ef1/Screen/profile.dart';
 import 'package:wallet_app_ef1/Screen/swap.dart';
 import 'package:wallet_app_ef1/Screen/wallet.dart';
 
+import '../localizations.dart';
 import 'screenModel.dart';
 
 const FIRST_SCREEN = 0;
@@ -35,7 +36,7 @@ class NavigationProvider extends ChangeNotifier {
 
   bool get sendPage => _sendPage;
 
-  String _title = "Home";
+  String _title = AppLocalizations.instance.translate('homeTitle');
 
   String get title => _title;
 
@@ -61,7 +62,7 @@ class NavigationProvider extends ChangeNotifier {
 
   final Map<int, Screen> _screens = {
     FIRST_SCREEN: Screen(
-      title: 'Home',
+      title: AppLocalizations.instance.translate('homeTitle'),
       child: HomePage(),
       initialRoute: HomePage.route,
       navigatorState: GlobalKey<NavigatorState>(),
@@ -78,7 +79,7 @@ class NavigationProvider extends ChangeNotifier {
       },
     ),
     SECOND_SCREEN: Screen(
-      title: 'Contact',
+      title: AppLocalizations.instance.translate('contactTitle'),
       child: ContactPage(),
       initialRoute: ContactPage.route,
       navigatorState: GlobalKey<NavigatorState>(),
@@ -92,7 +93,7 @@ class NavigationProvider extends ChangeNotifier {
       scrollController: ScrollController(),
     ),
     THIRD_SCREEN: Screen(
-      title: 'History',
+      title: AppLocalizations.instance.translate('historyTitle'),
       child: HistoryPage(),
       initialRoute: HistoryPage.route,
       navigatorState: GlobalKey<NavigatorState>(),
@@ -106,7 +107,7 @@ class NavigationProvider extends ChangeNotifier {
       scrollController: ScrollController(),
     ),
     FOURTH_SCREEN: Screen(
-      title: 'Profile',
+      title: AppLocalizations.instance.translate('profileTitle'),
       child: ProfilePage(),
       initialRoute: ProfilePage.route,
       navigatorState: GlobalKey<NavigatorState>(),
@@ -178,7 +179,7 @@ class NavigationProvider extends ChangeNotifier {
 
   /// Set SendPage state
   void setSendPage(bool state) {
-    _title = "Send";
+    _title = AppLocalizations.instance.translate('sendTitle');
     _sendPage = state;
     notifyListeners();
   }
@@ -187,11 +188,13 @@ class NavigationProvider extends ChangeNotifier {
   /// to the start of scroll view.
   void _scrollToStart() {
     if (currentScreen.scrollController != null) {
-      currentScreen.scrollController.animateTo(
-        0,
-        duration: const Duration(seconds: 1),
-        curve: Curves.easeInOut,
-      );
+      if (currentScreen.scrollController.hasClients) {
+        currentScreen.scrollController.animateTo(
+          0,
+          duration: const Duration(seconds: 1),
+          curve: Curves.easeInOut,
+        );
+      }
     }
   }
 
@@ -202,7 +205,7 @@ class NavigationProvider extends ChangeNotifier {
     if (_sendPage) {
       setTab(FIRST_SCREEN);
       setSendPage(false);
-      setTitle("Home");
+      setTitle(AppLocalizations.instance.translate('homeTitle'));
       setChildTitle("");
       notifyListeners();
       print("From Send Page");
@@ -223,7 +226,7 @@ class NavigationProvider extends ChangeNotifier {
         if (childTitle.isNotEmpty) {
           setTitle("");
         } else {
-          setTitle("Home");
+          setTitle(AppLocalizations.instance.translate('homeTitle'));
         }
         print("From Other Page");
         print("Title: " + title + " Child: " + childTitle);

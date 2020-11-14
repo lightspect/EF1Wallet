@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:wallet_app_ef1/localizations.dart';
 
 class FABBottomAppBarItem {
   FABBottomAppBarItem({this.iconData, this.text});
@@ -8,10 +9,18 @@ class FABBottomAppBarItem {
 }
 
 List<FABBottomAppBarItem> bottomNavList = [
-  FABBottomAppBarItem(iconData: Icons.home, text: 'Home'),
-  FABBottomAppBarItem(iconData: Icons.group, text: 'Contact'),
-  FABBottomAppBarItem(iconData: Icons.history, text: 'History'),
-  FABBottomAppBarItem(iconData: Icons.qr_code, text: 'Profile'),
+  FABBottomAppBarItem(
+      iconData: Icons.home,
+      text: AppLocalizations.instance.translate('homeTitle')),
+  FABBottomAppBarItem(
+      iconData: Icons.group,
+      text: AppLocalizations.instance.translate('contactTitle')),
+  FABBottomAppBarItem(
+      iconData: Icons.history,
+      text: AppLocalizations.instance.translate('historyTitle')),
+  FABBottomAppBarItem(
+      iconData: Icons.qr_code,
+      text: AppLocalizations.instance.translate('profileTitle')),
 ];
 
 class DrawerItem {
@@ -21,8 +30,10 @@ class DrawerItem {
 }
 
 List<DrawerItem> drawerList = [
-  DrawerItem("Home", Icons.home),
-  DrawerItem("Term of Use", Icons.collections_bookmark),
-  DrawerItem("About Us", Icons.group),
-  DrawerItem("Logout", Icons.settings_power)
+  DrawerItem(AppLocalizations.instance.translate('homeTitle'), Icons.home),
+  DrawerItem(AppLocalizations.instance.translate('termText'),
+      Icons.collections_bookmark),
+  DrawerItem(AppLocalizations.instance.translate('aboutUs'), Icons.group),
+  DrawerItem(
+      AppLocalizations.instance.translate('logoutButton'), Icons.settings_power)
 ];

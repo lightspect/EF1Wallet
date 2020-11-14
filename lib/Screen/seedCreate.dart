@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wallet_app_ef1/Common/color_utils.dart';
 import 'package:wallet_app_ef1/Common/reusable_widget.dart';
 import 'package:wallet_app_ef1/Common/styles.dart';
+import 'package:wallet_app_ef1/localizations.dart';
 
 class SeedCreatePage extends StatefulWidget {
   SeedCreatePage({Key key, this.title}) : super(key: key);
@@ -24,12 +25,12 @@ class _SeedCreatePageState extends State<SeedCreatePage> {
         barrierDismissible: false, // user must tap button!
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Seed Phrase'),
+            title:
+                Text(AppLocalizations.of(context).translate('seedCreateTitle')),
             content: SingleChildScrollView(
               child: ListBody(
                 children: <Widget>[
-                  Text(
-                      'Please click on the Secret Phrase to reveal it before proceeding.'),
+                  Text(AppLocalizations.of(context).translate('alertSeedText')),
                 ],
               ),
             ),
@@ -52,7 +53,7 @@ class _SeedCreatePageState extends State<SeedCreatePage> {
           leading: BackButton(color: colorBlue),
           elevation: 0,
           title: Text(
-            "Back",
+            AppLocalizations.of(context).translate('backButton'),
             style: TextStyle(color: colorBlue),
           ),
         ),
@@ -65,7 +66,7 @@ class _SeedCreatePageState extends State<SeedCreatePage> {
                   width: MediaQuery.of(context).size.width / 3.5,
                 ),
                 Text(
-                  "Secret Backup Phrase",
+                  AppLocalizations.of(context).translate('seedCreateTitle'),
                   style: loginTitleStyle,
                 ),
                 Container(
@@ -73,10 +74,12 @@ class _SeedCreatePageState extends State<SeedCreatePage> {
                     child: Column(
                       children: [
                         Text(
-                          "Your secret backup phrase makes it easy to back up and restore your account.",
+                          AppLocalizations.of(context)
+                              .translate('aboutSeedText'),
                         ),
                         Text(
-                          "WARNING: Never disclose your backup phrase. Anyone with this phrase can take your Ether forever.",
+                          AppLocalizations.of(context)
+                              .translate('warningSeedText'),
                         ),
                       ],
                     )),
@@ -106,7 +109,8 @@ class _SeedCreatePageState extends State<SeedCreatePage> {
                               Text(
                                 reveal
                                     ? seed
-                                    : "Click here to reveal secret words",
+                                    : AppLocalizations.of(context)
+                                        .translate('revealSeedText'),
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontSize: reveal ? 14 : 12),
@@ -129,13 +133,17 @@ class _SeedCreatePageState extends State<SeedCreatePage> {
                             style: BorderStyle.solid),
                       ),
                       child: InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.of(context)
+                              .popUntil(ModalRoute.withName('/login'));
+                        },
                         child: Container(
                           height: 48,
                           width: 160,
                           child: Center(
                             child: Text(
-                              'Remind me later',
+                              AppLocalizations.of(context)
+                                  .translate('remindButton'),
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
@@ -151,7 +159,8 @@ class _SeedCreatePageState extends State<SeedCreatePage> {
                       height: 48,
                       color: colorBlue,
                       textColor: Colors.white,
-                      text: "Next",
+                      text:
+                          AppLocalizations.of(context).translate('nextButton'),
                       fontSize: 20,
                       borderColor: colorBlue,
                       borderRadius: 5,
@@ -165,11 +174,13 @@ class _SeedCreatePageState extends State<SeedCreatePage> {
                   ],
                 ),
                 Text(
-                  'Tips: \nStore this phrase in a password manager like 1Password. Write this phrase on a piece of paper and store in a secure location. If you want even more security, write it down on multiple pieces of paper and store each in 2 - 3 different locations. \nMemorize this phrase',
+                  AppLocalizations.of(context)
+                      .translate('tipSeedText')
+                      .replaceAll("\\n", "\n"),
                   style: TextStyle(color: colorBlack, fontSize: 12),
                 ),
                 Text(
-                  "Download this Secret Backup Phrase and keep it stored safely on an external encrypted hard drive or storage medium.",
+                  AppLocalizations.of(context).translate('downloadSeedText'),
                   style: TextStyle(color: colorBlack, fontSize: 12),
                 ),
               ],

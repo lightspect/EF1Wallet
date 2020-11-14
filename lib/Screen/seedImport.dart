@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wallet_app_ef1/Common/color_utils.dart';
 import 'package:wallet_app_ef1/Common/reusable_widget.dart';
 import 'package:wallet_app_ef1/Common/styles.dart';
+import 'package:wallet_app_ef1/localizations.dart';
 
 class SeedImportPage extends StatefulWidget {
   SeedImportPage({Key key, this.title}) : super(key: key);
@@ -32,11 +33,11 @@ class _SeedImportPageState extends State<SeedImportPage> {
         barrierDismissible: false, // user must tap button!
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Term of Use'),
+            title: Text(AppLocalizations.of(context).translate('termText')),
             content: SingleChildScrollView(
               child: ListBody(
                 children: <Widget>[
-                  Text('Please agree to our Term of Use to proceed.'),
+                  Text(AppLocalizations.of(context).translate('alertTermText')),
                 ],
               ),
             ),
@@ -55,18 +56,18 @@ class _SeedImportPageState extends State<SeedImportPage> {
 
     String checkPassword(String password) {
       if (password.isEmpty) {
-        return 'Please enter Password';
+        return AppLocalizations.of(context).translate('passwordBlankText');
       } else if (password.length < 8) {
-        return 'Password length must be 8 characters or longer';
+        return AppLocalizations.of(context).translate('passwordErrorText');
       }
       return null;
     }
 
     String checkRepassword(String repassword) {
       if (repassword.isEmpty) {
-        return 'Please re-enter Password';
+        return AppLocalizations.of(context).translate('repasswordBlankText');
       } else if (_passwordController.text != _repasswordController.text) {
-        return 'Re-enter password must be the same';
+        return AppLocalizations.of(context).translate('repasswordErrorText');
       }
       return null;
     }
@@ -74,7 +75,7 @@ class _SeedImportPageState extends State<SeedImportPage> {
     String checkSeedPhrase(String seed) {
       if (seed.isEmpty ||
           ![12, 15, 18, 21, 24].contains(seed.split(" ").length)) {
-        return 'Seed phrases contain 12, 15, 18, 21, or 24 words';
+        return AppLocalizations.of(context).translate('seedErrorText');
       }
       return null;
     }
@@ -85,7 +86,7 @@ class _SeedImportPageState extends State<SeedImportPage> {
         leading: BackButton(color: colorBlue),
         elevation: 0,
         title: Text(
-          "Back",
+          AppLocalizations.of(context).translate('backButton'),
           style: TextStyle(color: colorBlue),
         ),
       ),
@@ -104,13 +105,14 @@ class _SeedImportPageState extends State<SeedImportPage> {
                     margin: EdgeInsets.only(top: 16, bottom: 4),
                     padding: EdgeInsets.symmetric(horizontal: 60),
                     child: Text(
-                      "Import an account with seed phrase",
+                      AppLocalizations.of(context).translate('importTitle'),
                       style: loginTitleStyle,
                       textAlign: TextAlign.center,
                     ),
                   ),
                   TextFormFieldWidget(
-                    hintText: "Seed phrase",
+                    hintText: AppLocalizations.of(context)
+                        .translate('seedPhraseHintText'),
                     obscureText: seedPhraseVisible,
                     textInputType: TextInputType.visiblePassword,
                     actionKeyboard: TextInputAction.next,
@@ -136,7 +138,8 @@ class _SeedImportPageState extends State<SeedImportPage> {
                     ),
                   ),
                   TextFormFieldWidget(
-                    hintText: "Passwords (Minimum of 8 characters)",
+                    hintText: AppLocalizations.of(context)
+                        .translate('passwordsHintText'),
                     obscureText: passwordVisible,
                     textInputType: TextInputType.visiblePassword,
                     actionKeyboard: TextInputAction.next,
@@ -162,13 +165,17 @@ class _SeedImportPageState extends State<SeedImportPage> {
                     ),
                   ),
                   TextFormFieldWidget(
-                    hintText: "Re-enter Passwords",
+                    hintText: AppLocalizations.of(context)
+                        .translate('repasswordHintText'),
                     obscureText: passwordVisible,
                     textInputType: TextInputType.visiblePassword,
                     actionKeyboard: TextInputAction.done,
                     functionValidate: checkRepassword,
                     controller: _repasswordController,
                     focusNode: _repasswordControllerFocus,
+                    suffixIcon: SizedBox(
+                      height: 20,
+                    ),
                     onSubmitField: () {},
                   ),
                   StatefulBuilder(
@@ -181,9 +188,13 @@ class _SeedImportPageState extends State<SeedImportPage> {
                             color: colorBlack,
                           ),
                           children: <TextSpan>[
-                            new TextSpan(text: 'I have read and agree to the'),
                             new TextSpan(
-                                text: ' Term of Use',
+                                text: AppLocalizations.of(context)
+                                    .translate('agreeTermText')),
+                            new TextSpan(
+                                text: " " +
+                                    AppLocalizations.of(context)
+                                        .translate('termText'),
                                 style: new TextStyle(color: colorBlue)),
                           ],
                         ),
@@ -199,7 +210,8 @@ class _SeedImportPageState extends State<SeedImportPage> {
                     );
                   }),
                   LoginButton(
-                    text: "Registration",
+                    text: AppLocalizations.of(context)
+                        .translate('registrationButton'),
                     color: colorBlue,
                     borderRadius: 5,
                     highlightColor: colorBlue,

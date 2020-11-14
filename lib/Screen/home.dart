@@ -8,6 +8,8 @@ import 'package:wallet_app_ef1/Model/navigationModel.dart';
 import 'package:wallet_app_ef1/Screen/swap.dart';
 import 'package:wallet_app_ef1/Screen/wallet.dart';
 
+import '../localizations.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({Key key, this.title}) : super(key: key);
 
@@ -46,10 +48,11 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             Text(
-              "Hi, 0xabcxxx...001",
+              AppLocalizations.instance.translate('hiText') +
+                  ", 0xabcxxx...001",
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
-            Text("What would you like to work with ?"),
+            Text(AppLocalizations.instance.translate('homeSubtitle')),
             Flexible(
               child: Container(
                 padding: EdgeInsets.symmetric(vertical: 16),
@@ -67,8 +70,9 @@ class _HomePageState extends State<HomePage> {
                         onTap: () {
                           NavigationProvider.of(context).setAppBar(true);
                           NavigationProvider.of(context).setTitle("");
-                          NavigationProvider.of(context)
-                              .setChildTitle("Wallet");
+                          NavigationProvider.of(context).setChildTitle(
+                              AppLocalizations.instance
+                                  .translate('walletButton'));
                           Navigator.of(
                             context,
                             rootNavigator: false,
@@ -86,14 +90,16 @@ class _HomePageState extends State<HomePage> {
                                 height: 78,
                               ),
                               Text(
-                                "Wallet",
+                                AppLocalizations.instance
+                                    .translate('walletButton'),
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 24,
                                 ),
                               ),
                               Text(
-                                "You can start use",
+                                AppLocalizations.instance
+                                    .translate('startText'),
                                 style: TextStyle(
                                   color: Colors.white,
                                 ),
@@ -139,7 +145,8 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               ),
                               Text(
-                                "You can start use",
+                                AppLocalizations.instance
+                                    .translate('startText'),
                                 style: TextStyle(
                                   color: Colors.white,
                                 ),
@@ -225,7 +232,8 @@ class _HomePageState extends State<HomePage> {
                             LoginButton(
                               minWidth: 52,
                               height: 20,
-                              text: "View",
+                              text: AppLocalizations.instance
+                                  .translate('viewButton'),
                               textColor: Colors.white,
                               borderRadius: 10,
                               borderColor: colorGreen,
@@ -260,7 +268,8 @@ class _HomePageState extends State<HomePage> {
                             color: Colors.white,
                           ),
                           Text(
-                            'Add Wallet',
+                            AppLocalizations.instance
+                                .translate('addWalletButton'),
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 10,

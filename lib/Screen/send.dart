@@ -5,6 +5,8 @@ import 'package:wallet_app_ef1/Common/reusable_widget.dart';
 import 'package:wallet_app_ef1/Model/coinModel.dart';
 import 'package:wallet_app_ef1/Model/navigationModel.dart';
 
+import '../localizations.dart';
+
 class SendPage extends StatefulWidget {
   const SendPage({Key key, this.title, this.callDialog, this.setRecepient})
       : super(key: key);
@@ -35,9 +37,9 @@ class _SendPageState extends State<SendPage> {
     _dropdownMenuItems = buildDropDownMenuItems(coinModel);
     _selectedItem = _dropdownMenuItems[0].value;
     _feeOptions = [
-      FeesModel("Very Fast", 0.3),
-      FeesModel("Fast", 0.2),
-      FeesModel("Slow", 0.1)
+      FeesModel(AppLocalizations.instance.translate('veryFastOption'), 0.3),
+      FeesModel(AppLocalizations.instance.translate('fastOption'), 0.2),
+      FeesModel(AppLocalizations.instance.translate('slowOption'), 0.1)
     ];
     _selectedFee = _feeOptions[0];
     _feesController.text = _selectedFee.value.toString();

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wallet_app_ef1/Common/color_utils.dart';
 import 'package:wallet_app_ef1/Common/reusable_widget.dart';
+import 'package:wallet_app_ef1/Common/share_preferences.dart';
 import 'package:wallet_app_ef1/Common/styles.dart';
 
 class IntroPage extends StatefulWidget {
@@ -12,6 +13,7 @@ class _IntroPageState extends State<IntroPage> {
   final int _numPage = 3;
   final PageController _pageController = PageController(initialPage: 0);
   int _currentPage = 0;
+  SharedPref sharedPref = SharedPref();
 
   List<Widget> _buildPageIndicator() {
     List<Widget> list = [];
@@ -148,7 +150,6 @@ class _IntroPageState extends State<IntroPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: _buildPageIndicator(),
             ),
-            //_currentPage != _numPage - 1 ? Expanded(child: Align(alignment: FractionalOffset.bottomRight,))
           ],
         ),
       ),
@@ -178,5 +179,10 @@ class _IntroPageState extends State<IntroPage> {
             )
           : Text(''),
     );
+  }
+
+  @override
+  void afterFirstLayout(BuildContext context) {
+    // TODO: implement afterFirstLayout
   }
 }
