@@ -127,7 +127,7 @@ class _SeedConfirmPageState extends State<SeedConfirmPage> {
                   ),
                   Container(
                     width: MediaQuery.of(context).size.width,
-                    height: 160,
+                    height: 144,
                     child: GridView.count(
                       crossAxisCount: 4,
                       crossAxisSpacing: 8,
@@ -165,7 +165,7 @@ class _SeedConfirmPageState extends State<SeedConfirmPage> {
               );
             }),
             LoginButton(
-              margin: EdgeInsets.only(top: 24),
+              margin: EdgeInsets.only(top: 0),
               minWidth: 160,
               height: 48,
               color: colorBlue,

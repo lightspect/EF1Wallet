@@ -4,6 +4,8 @@ import 'package:wallet_app_ef1/Common/reusable_widget.dart';
 import 'package:wallet_app_ef1/Model/coinModel.dart';
 import 'package:wallet_app_ef1/Model/navigationModel.dart';
 
+import '../localizations.dart';
+
 class SwapPage extends StatefulWidget {
   const SwapPage({Key key, this.title}) : super(key: key);
 
@@ -36,9 +38,9 @@ class _SwapPageState extends State<SwapPage> {
     _selectedFrom = _dropdownFromItems[0].value;
     _selectedTo = _dropdownToItems[0].value;
     _feeOptions = [
-      FeesModel("Very Fast", 0.3),
-      FeesModel("Fast", 0.2),
-      FeesModel("Slow", 0.1)
+      FeesModel(AppLocalizations.instance.translate('veryFastOption'), 0.3),
+      FeesModel(AppLocalizations.instance.translate('fastOption'), 0.2),
+      FeesModel(AppLocalizations.instance.translate('slowOption'), 0.1)
     ];
     _selectedFee = _feeOptions[0];
     _feesController.text = _selectedFee.value.toString();
@@ -160,7 +162,7 @@ class _SwapPageState extends State<SwapPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Total Balance",
+                      AppLocalizations.of(context).translate('totalText'),
                       style: TextStyle(fontSize: 16),
                     ),
                     Padding(
@@ -214,12 +216,15 @@ class _SwapPageState extends State<SwapPage> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("From"),
+                            Text(
+                              AppLocalizations.of(context)
+                                  .translate('fromText'),
+                            ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Container(
-                                  width: 172,
+                                  width: 168,
                                   child: TextFormFieldWidget(
                                     padding: EdgeInsets.only(top: 20),
                                     hintText: _selectedFrom.name,
@@ -254,12 +259,14 @@ class _SwapPageState extends State<SwapPage> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("To"),
+                            Text(
+                              AppLocalizations.of(context).translate('toText'),
+                            ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Container(
-                                  width: 172,
+                                  width: 168,
                                   child: TextFormFieldWidget(
                                     padding: EdgeInsets.only(top: 20),
                                     hintText: _selectedTo.name,
@@ -291,7 +298,9 @@ class _SwapPageState extends State<SwapPage> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("Fee"),
+                            Text(
+                              AppLocalizations.of(context).translate('feeText'),
+                            ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: createFeesList(),

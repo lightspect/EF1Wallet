@@ -28,9 +28,11 @@ class _ProfilePageState extends State<ProfilePage> {
         padding: EdgeInsets.symmetric(horizontal: 16),
         child: Column(
           children: [
-            CircleAvatar(
-              radius: 40,
-              backgroundImage: user.avatar,
+            Flexible(
+              child: CircleAvatar(
+                radius: 40,
+                backgroundImage: user.avatar,
+              ),
             ),
             Padding(
               padding: EdgeInsets.symmetric(vertical: 16),

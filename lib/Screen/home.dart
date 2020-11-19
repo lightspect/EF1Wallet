@@ -86,9 +86,7 @@ class _HomePageState extends State<HomePage> {
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Container(
-                                height: 78,
-                              ),
+                              Spacer(),
                               Text(
                                 AppLocalizations.instance
                                     .translate('walletButton'),
@@ -134,9 +132,7 @@ class _HomePageState extends State<HomePage> {
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Container(
-                                height: 78,
-                              ),
+                              Spacer(),
                               Text(
                                 "Swap",
                                 style: TextStyle(

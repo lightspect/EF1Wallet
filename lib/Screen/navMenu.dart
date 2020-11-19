@@ -8,6 +8,7 @@ import 'package:wallet_app_ef1/Common/reusable_widget.dart';
 import 'package:wallet_app_ef1/Model/destination.dart';
 import 'package:wallet_app_ef1/Model/navigationModel.dart';
 import 'package:wallet_app_ef1/Screen/send.dart';
+import 'package:wallet_app_ef1/localizations.dart';
 
 class NavMenu extends StatefulWidget {
   @override
@@ -54,7 +55,7 @@ class _NavMenuState extends State<NavMenu>
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(
-            'Add To Address Book',
+            AppLocalizations.of(context).translate('addAddressTitle'),
             textAlign: TextAlign.center,
           ),
           content: SingleChildScrollView(
@@ -64,7 +65,8 @@ class _NavMenuState extends State<NavMenu>
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Add Recepient"),
+                      Text(AppLocalizations.of(context)
+                          .translate('addRecipientText')),
                       Container(
                         margin: EdgeInsets.only(top: 12, bottom: 16),
                         child: TextFormField(
@@ -81,7 +83,8 @@ class _NavMenuState extends State<NavMenu>
                                 _navigateAndReturnData();
                               },
                             ),
-                            hintText: "Recepient",
+                            hintText: AppLocalizations.of(context)
+                                .translate('recipientHintText'),
                             enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(color: colorBlack),
                             ),
@@ -102,7 +105,8 @@ class _NavMenuState extends State<NavMenu>
                           onFieldSubmitted: (value) {},
                         ),
                       ),
-                      Text("Enter an Alias"),
+                      Text(AppLocalizations.of(context)
+                          .translate('addAliasText')),
                       Container(
                         padding: EdgeInsets.only(top: 12),
                         child: TextFormField(
@@ -113,7 +117,8 @@ class _NavMenuState extends State<NavMenu>
                             letterSpacing: 1.2,
                           ),
                           decoration: InputDecoration(
-                            hintText: "Alias",
+                            hintText: AppLocalizations.of(context)
+                                .translate('aliasHintText'),
                             enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(color: colorBlack),
                             ),
@@ -146,23 +151,26 @@ class _NavMenuState extends State<NavMenu>
               children: [
                 LoginButton(
                   height: 40,
-                  minWidth: 128,
+                  minWidth: MediaQuery.of(context).size.width / 3.4,
                   color: colorBG,
                   borderColor: colorBlack,
                   borderRadius: 4,
-                  text: "Cancel",
+                  text:
+                      AppLocalizations.of(context).translate('addCancelButton'),
                   textColor: colorBlack,
                   onClick: () {
+                    _aliasController.text = "";
+                    _recepientController.text = "";
                     Navigator.of(context).pop();
                   },
                 ),
                 LoginButton(
                   height: 40,
-                  minWidth: 128,
+                  minWidth: MediaQuery.of(context).size.width / 3.4,
                   color: colorBlue,
                   borderColor: colorBlue,
                   borderRadius: 4,
-                  text: "Save",
+                  text: AppLocalizations.of(context).translate('addSaveButton'),
                   onClick: () {},
                 )
               ],

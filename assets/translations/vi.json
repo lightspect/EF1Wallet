@@ -52,6 +52,9 @@
     "sendComplete": "Gửi hoàn tất",
     "sendSuccessTitle": "Giao dịch của bạn đang được thực hiện!",
     "sendSuccessSubtitle": "Bạn đã gửi $amount ($convert) đến $address",
+    "viewDetailButton": "Xem chi tiết",
+    "recipientCheckText": "Xin hãy nhập người nhận",
+    "amountCheckText": "Xin hãy nhập số",
     "historyTitle": "Lịch sử",
     "profileTitle": "Hồ sơ",
     "changepassButton": "Đổi mật khẩu",
@@ -62,5 +65,8 @@
     "passwordErrorText": "Mật khẩu phải có ít nhất 8 kí tự",
     "repasswordBlankText": "Xin nhập lại mật khẩu",
     "repasswordErrorText": "Mật khẩu nhập lại phải giống mật khẩu đầu",
-    "seedErrorText": "Cụm tự sao lưu có 12, 15, 18, 21, hoặc 24 từ"
+    "seedErrorText": "Cụm tự sao lưu có 12, 15, 18, 21, hoặc 24 từ",
+    "24hChangeText": "Biến động giá trong 24 giờ",
+    "fromText": "Từ",
+    "toText": "Ra"
 }

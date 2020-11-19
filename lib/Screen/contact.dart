@@ -24,8 +24,11 @@ class _ContactPageState extends State<ContactPage> {
     searchList = [];
     if (search.isNotEmpty) {
       for (int i = 0; i < contactList.length; i++) {
-        if (contactList[i].alias.toLowerCase().contains(search) ||
-            contactList[i].address.toLowerCase().contains(search)) {
+        if (contactList[i].alias.toLowerCase().contains(search.toLowerCase()) ||
+            contactList[i]
+                .address
+                .toLowerCase()
+                .contains(search.toLowerCase())) {
           setState(() {
             searchList.add(contactList[i]);
           });

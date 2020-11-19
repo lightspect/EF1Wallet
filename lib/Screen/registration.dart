@@ -170,7 +170,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     _showMyDialog();
                   } else {
                     _formKey.currentState.save();
-                    Navigator.pushNamed(context, '/navigationMenu');
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, '/navigationMenu', (r) => false);
                   }
                 },
                 borderColor: colorBlue,

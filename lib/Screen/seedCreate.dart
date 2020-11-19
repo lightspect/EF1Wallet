@@ -139,7 +139,7 @@ class _SeedCreatePageState extends State<SeedCreatePage> {
                         },
                         child: Container(
                           height: 48,
-                          width: 160,
+                          width: MediaQuery.of(context).size.width / 2.3,
                           child: Center(
                             child: Text(
                               AppLocalizations.of(context)
@@ -155,7 +155,7 @@ class _SeedCreatePageState extends State<SeedCreatePage> {
                     ),
                     LoginButton(
                       margin: EdgeInsets.symmetric(vertical: 16),
-                      minWidth: 172,
+                      minWidth: MediaQuery.of(context).size.width / 2.3,
                       height: 48,
                       color: colorBlue,
                       textColor: Colors.white,

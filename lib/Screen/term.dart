@@ -24,7 +24,7 @@ class _TermServiceState extends State<TermService> {
         width: MediaQuery.of(context).size.width,
         child: Column(
           children: [
-            LoginLogo(width: MediaQuery.of(context).size.width / 2.5),
+            LoginLogo(width: MediaQuery.of(context).size.width / 2.75),
             Container(
               margin: EdgeInsets.only(bottom: 12.0),
               child: Text(
@@ -39,7 +39,7 @@ class _TermServiceState extends State<TermService> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   LoginButton(
-                    minWidth: 160,
+                    minWidth: MediaQuery.of(context).size.width / 2.75,
                     height: 48,
                     color: colorBG,
                     textColor: colorBlack,
@@ -53,7 +53,7 @@ class _TermServiceState extends State<TermService> {
                     },
                   ),
                   LoginButton(
-                    minWidth: 160,
+                    minWidth: MediaQuery.of(context).size.width / 2.5,
                     height: 48,
                     color: colorBlue,
                     textColor: Colors.white,

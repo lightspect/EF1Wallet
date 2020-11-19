@@ -52,6 +52,9 @@
     "sendComplete": "Send Complete",
     "sendSuccessTitle": "Your transaction is on the way!",
     "sendSuccessSubtitle": "You have sent $amount ($convert) to $address",
+    "viewDetailButton": "View Details",
+    "recipientCheckText": "Please enter a recipient",
+    "amountCheckText": "Please enter number for amount",
     "historyTitle": "History",
     "profileTitle": "Profile",
     "changepassButton": "Change Password",
@@ -62,5 +65,8 @@
     "passwordErrorText": "Password length must be 8 characters or longer",
     "repasswordBlankText": "Please re-enter Password",
     "repasswordErrorText": "Re-enter password must be the same",
-    "seedErrorText": "Seed phrases contain 12, 15, 18, 21, or 24 words"
+    "seedErrorText": "Seed phrases contain 12, 15, 18, 21, or 24 words",
+    "24hChangeText": "24h Price Changes",
+    "fromText": "From",
+    "toText": "To"
 }

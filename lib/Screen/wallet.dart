@@ -6,6 +6,7 @@ import 'package:wallet_app_ef1/Common/color_utils.dart';
 import 'package:wallet_app_ef1/Common/reusable_widget.dart';
 import 'package:wallet_app_ef1/Model/coinModel.dart';
 import 'package:wallet_app_ef1/Model/navigationModel.dart';
+import 'package:wallet_app_ef1/localizations.dart';
 
 class WalletPage extends StatefulWidget {
   const WalletPage({Key key, this.title}) : super(key: key);
@@ -163,7 +164,7 @@ class _WalletPageState extends State<WalletPage> {
                     alignment: Alignment.centerLeft,
                     padding: EdgeInsets.only(left: 16),
                     child: Text(
-                      "24h price changes",
+                      AppLocalizations.of(context).translate('24hChangeText'),
                       style: TextStyle(fontSize: 16),
                     ),
                   ),

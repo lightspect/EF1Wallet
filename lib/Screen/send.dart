@@ -111,25 +111,25 @@ class _SendPageState extends State<SendPage> {
       context: context,
       builder: (BuildContext context) {
         return CustomAlertDialog(
-          title: "Send Complete",
-          bodySubtitle: "You have sent " +
-              _amountController.text +
-              " " +
-              _selectedItem.name +
-              r" ($" +
-              _selectedItem.price.toString() +
-              ") to an external address",
+          title: AppLocalizations.instance.translate('sendComplete'),
+          bodySubtitle:
+              AppLocalizations.instance.translate('sendSuccessSubtitle', {
+            'amount': _amountController.text + " " + _selectedItem.name,
+            'convert': r"$" + _selectedItem.price.toString(),
+            'address': _recipientController.text ?? 'an external address'
+          }),
           bodyAction: [
             LoginButton(
               margin: EdgeInsets.fromLTRB(0, 8, 0, 8),
               color: colorBlue,
               borderColor: colorBlue,
               borderRadius: 4,
-              text: "View Details",
+              text: AppLocalizations.of(context).translate('viewDetailButton'),
               onClick: () {
                 Navigator.of(context).pop();
                 NavigationProvider.of(parentContext).setTab(THIRD_SCREEN);
-                NavigationProvider.of(parentContext).setTitle("History");
+                NavigationProvider.of(parentContext).setTitle(
+                    AppLocalizations.of(context).translate('historyTitle'));
               },
             ),
             LoginButton(
@@ -137,11 +137,12 @@ class _SendPageState extends State<SendPage> {
               color: colorGreen,
               borderColor: colorGreen,
               borderRadius: 4,
-              text: "Add to Adress book",
+              text: AppLocalizations.of(context).translate('addAddressTitle'),
               onClick: () {
                 Navigator.of(context).pop();
                 NavigationProvider.of(parentContext).setTab(SECOND_SCREEN);
-                NavigationProvider.of(parentContext).setTitle("Contact");
+                NavigationProvider.of(parentContext).setTitle(
+                    AppLocalizations.of(context).translate('contactTitle'));
                 widget.callDialog();
                 widget.setRecepient(_recipientController.text);
               },
@@ -161,14 +162,14 @@ class _SendPageState extends State<SendPage> {
 
   String checkRecipient(String recipient) {
     if (recipient.isEmpty || recipient == null) {
-      return "Please enter a recipient";
+      return AppLocalizations.of(context).translate('recipientCheckText');
     }
     return null;
   }
 
   String checkAmount(String amount) {
     if (!isNumeric(amount)) {
-      return "Please enter number for amount";
+      return AppLocalizations.of(context).translate('amountCheckText');
     }
     return null;
   }
@@ -189,7 +190,7 @@ class _SendPageState extends State<SendPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Total Balance",
+                      AppLocalizations.of(context).translate('totalText'),
                       style: TextStyle(fontSize: 16),
                     ),
                     Padding(
@@ -243,16 +244,18 @@ class _SendPageState extends State<SendPage> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("Recipient"),
+                              Text(AppLocalizations.of(context)
+                                  .translate('recipientHintText')),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Container(
-                                    width: 172,
+                                    width: 168,
                                     child: TextFormFieldWidget(
                                       padding: EdgeInsets.only(top: 20),
-                                      hintText: "Recipient",
+                                      hintText: AppLocalizations.of(context)
+                                          .translate('recipientHintText'),
                                       textInputType: TextInputType.text,
                                       actionKeyboard: TextInputAction.next,
                                       functionValidate: checkRecipient,
@@ -285,16 +288,18 @@ class _SendPageState extends State<SendPage> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("Amount"),
+                              Text(AppLocalizations.of(context)
+                                  .translate('amountText')),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Container(
-                                    width: 172,
+                                    width: 168,
                                     child: TextFormFieldWidget(
                                       padding: EdgeInsets.only(top: 20),
-                                      hintText: "Amount",
+                                      hintText: AppLocalizations.of(context)
+                                          .translate('amountText'),
                                       textInputType: TextInputType.text,
                                       actionKeyboard: TextInputAction.done,
                                       functionValidate: checkAmount,
@@ -324,7 +329,8 @@ class _SendPageState extends State<SendPage> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("Fee"),
+                              Text(AppLocalizations.of(context)
+                                  .translate('feeText')),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
@@ -365,7 +371,7 @@ class _SendPageState extends State<SendPage> {
                   child: Container(
                     child: Center(
                       child: Text(
-                        'Send',
+                        AppLocalizations.of(context).translate('sendTitle'),
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 20,

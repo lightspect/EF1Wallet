@@ -3,6 +3,7 @@ import 'package:flutter_qr_bar_scanner/qr_bar_scanner_camera.dart';
 import 'package:wallet_app_ef1/Common/color_utils.dart';
 import 'package:wallet_app_ef1/Common/reusable_widget.dart';
 import 'package:wallet_app_ef1/Model/contactModel.dart';
+import 'package:wallet_app_ef1/localizations.dart';
 
 class ScanScreen extends StatefulWidget {
   @override
@@ -140,7 +141,8 @@ class _ScanState extends State<ScanScreen> {
                           child: LoginButton(
                             margin: EdgeInsets.zero,
                             borderRadius: 8,
-                            text: "Add to Contact",
+                            text: AppLocalizations.of(context)
+                                .translate('addContactButton'),
                             onClick: () {
                               setSheetState(() {
                                 _visible = true;
@@ -154,7 +156,8 @@ class _ScanState extends State<ScanScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("Enter an alias"),
+                              Text(AppLocalizations.of(context)
+                                  .translate('addAliasText')),
                               Container(
                                 margin: EdgeInsets.only(top: 8, bottom: 16),
                                 child: TextFormField(
@@ -165,7 +168,8 @@ class _ScanState extends State<ScanScreen> {
                                     letterSpacing: 1.2,
                                   ),
                                   decoration: InputDecoration(
-                                    hintText: "Alias",
+                                    hintText: AppLocalizations.of(context)
+                                        .translate('aliasHintText'),
                                     enabledBorder: OutlineInputBorder(
                                       borderSide: BorderSide(color: colorBlack),
                                     ),
@@ -197,7 +201,8 @@ class _ScanState extends State<ScanScreen> {
                                     color: colorBG,
                                     borderColor: colorBlack,
                                     borderRadius: 4,
-                                    text: "Cancel",
+                                    text: AppLocalizations.of(context)
+                                        .translate('addCancelButton'),
                                     textColor: colorBlack,
                                     onClick: () {
                                       Navigator.of(context).pop();
@@ -210,7 +215,8 @@ class _ScanState extends State<ScanScreen> {
                                     color: colorBlue,
                                     borderColor: colorBlue,
                                     borderRadius: 4,
-                                    text: "Save",
+                                    text: AppLocalizations.of(context)
+                                        .translate('addSaveButton'),
                                     onClick: () {},
                                   )
                                 ],
